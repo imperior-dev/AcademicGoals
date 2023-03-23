@@ -4,29 +4,51 @@ import {
   ImageBackground,
   Dimensions,
   StatusBar,
+  Text,
 } from "react-native";
 
 import Colors from "./assets/Colors";
+import Images from "./assets/Images";
+import Global from "./assets/Global";
 
-const IsLandscape =
-  Dimensions.get("window").width > Dimensions.get("window").height;
+import Navbar from "./screens/Navbar";
+import Home from "./screens/Home";
+import Analytics from "./screens/Analytics";
+import Homework from "./screens/Homework";
+import Schedule from "./screens/Schedule";
+import Settings from "./screens/Settings";
+
+import { useState } from "react";
 
 export default function App() {
-  let backgroundImage = require("./assets/images/background-mobile.jpg");
-  if (IsLandscape) backgroundImage = require("./assets/images/background.jpg");
+  let backgroundImage = Images["background-mobile"];
+  if (Global.IsLandscape) backgroundImage = Images["background"];
 
   StatusBar.setBarStyle("light-content");
+
+  const [page, setPage] = useState(Global.pages.homework);
 
   return (
     <View style={style.container}>
       <View style={style.backgroundContainer}>
-        <ImageBackground
-          style={style.background}
-          source={backgroundImage}
-        ></ImageBackground>
+        <ImageBackground style={style.background} source={backgroundImage}>
+          <Text style={Global.fonts.h1}>12:00 PM</Text>
+        </ImageBackground>
       </View>
-      <View style={style.navbar}></View>
-      <View style={style.body}></View>
+      <View style={style.navbar}>
+        <Navbar setPage={setPage}></Navbar>
+      </View>
+      <View style={style.body}>
+        {
+          {
+            analytics: <Analytics />,
+            homework: <Homework />,
+            home: <Home />,
+            schedule: <Schedule />,
+            settings: <Settings />,
+          }[page]
+        }
+      </View>
     </View>
   );
 }
@@ -34,7 +56,7 @@ export default function App() {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: IsLandscape ? "row" : "column-reverse",
+    flexDirection: Global.IsLandscape ? "row" : "column-reverse",
     position: "relative",
   },
   statusbar: {
@@ -46,23 +68,25 @@ const style = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: "absolute",
-    flexDirection: IsLandscape ? "row-reverse" : "column",
+    flexDirection: Global.IsLandscape ? "row-reverse" : "column",
     backgroundColor: Colors.grey,
   },
   background: {
-    height: IsLandscape ? undefined : Dimensions.get("window").width,
-    width: IsLandscape ? Dimensions.get("window").height : undefined,
+    height: Global.IsLandscape ? undefined : Dimensions.get("window").width,
+    width: Global.IsLandscape ? Dimensions.get("window").height : undefined,
+    justifyContent: "center",
+    alignItems: "center",
   },
   backgroundBody: {
     flex: 1,
     backgroundColor: Colors.grey,
   },
   body: {
-    backgroundColor: "orange",
+    flex: 1,
+    flexDirection: Global.IsLandscape ? "row" : "column-reverse",
   },
   navbar: {
-    height: !IsLandscape ? 56 : undefined,
-    width: IsLandscape ? 64 : undefined,
-    backgroundColor: "yellow",
+    height: !Global.IsLandscape ? 64 : undefined,
+    width: Global.IsLandscape ? 76 : undefined,
   },
 });
