@@ -1,28 +1,34 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { useState } from "react";
 
 import { Dimensions } from "react-native";
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 import { Constraints } from "../assets/Global";
 import Colors from "../assets/Colors";
 
+import Navbar from "./components/Navbar";
+
+import Analytics from "./components/Analytics";
+import Homework from "./components/Homework";
+import Home from "./components/Home";
+import Calendar from "./components/Calendar";
+import Settings from "./components/Settings";
+
 export default function Main() {
-  const sectionCount = Math.floor(width / 350);
+  const [page, setPage] = useState("home");
+
   if (Constraints.IsLandscape) {
     return (
       <View style={landscapeStyle.container}>
-        <View style={landscapeStyle.navbar}></View>
+        <View style={landscapeStyle.navbar}>
+          <Navbar setPage={setPage}></Navbar>
+        </View>
         <View style={landscapeStyle.content}>
-          <View style={landscapeStyle.primarySection}></View>
-          <View style={landscapeStyle.sectionsContainer}>
-            <View style={landscapeStyle.section1}></View>
-            {sectionCount > 3 ? (
-              <View style={landscapeStyle.section2}></View>
-            ) : undefined}
-            {sectionCount > 2 ? (
-              <View style={landscapeStyle.section3}></View>
-            ) : undefined}
+          <View style={landscapeStyle.primarySection}>
+            <Home></Home>
           </View>
+          <View style={landscapeStyle.sectionsContainer}></View>
         </View>
       </View>
     );
@@ -31,8 +37,16 @@ export default function Main() {
     <View style={portraitStyle.container}>
       <View style={portraitStyle.backgroundContainer}></View>
       <View style={portraitStyle.contentContainer}>
-        <View style={portraitStyle.content}></View>
-        <View style={portraitStyle.navbar}></View>
+        <View style={portraitStyle.content}>
+          {page == "analytics" ? <Analytics /> : undefined}
+          {page == "homework" ? <Homework /> : undefined}
+          {page == "home" ? <Home /> : undefined}
+          {page == "calendar" ? <Calendar /> : undefined}
+          {page == "settings" ? <Settings /> : undefined}
+        </View>
+        <View style={portraitStyle.navbar}>
+          <Navbar setPage={setPage}></Navbar>
+        </View>
       </View>
     </View>
   );
@@ -100,10 +114,13 @@ const portraitStyle = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
+    justifyContent: "flex-end",
     position: "absolute",
   },
   content: {
-    flex: 1,
+    borderTopLeftRadius: Constraints.BorderRadius,
+    borderTopRightRadius: Constraints.BorderRadius,
+    backgroundColor: Colors.white,
   },
   navbar: {
     height: 64,

@@ -52,8 +52,24 @@ export function H4(props: any) {
     <Text
       style={{
         fontFamily: "Sora",
-        fontSize: scaleFactor * 16,
-        fontWeight: "500",
+        fontSize: scaleFactor * 18,
+        fontWeight: "400",
+        color: "white",
+      }}
+    >
+      {props.children}
+    </Text>
+  );
+}
+
+export function H5(props: any) {
+  return (
+    <Text
+      style={{
+        fontFamily: "Sora",
+        fontSize: scaleFactor * 10,
+        fontWeight: "400",
+        color: "white",
       }}
     >
       {props.children}
