@@ -1,16 +1,14 @@
 import { View, StyleSheet } from "react-native";
-import Header from "./Header";
+import Header from "../components/Header";
 
-export default function Settings() {
+export default function Analytics() {
   return (
     <View style={styles.container}>
-      <Header title="Settings"></Header>
+      <Header title="Analytics"></Header>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {},
 });

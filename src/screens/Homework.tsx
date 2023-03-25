@@ -1,10 +1,10 @@
 import { View, StyleSheet } from "react-native";
-import Header from "./Header";
+import Header from "../components/Header";
 
-export default function Calendar() {
+export default function Homework() {
   return (
     <View style={styles.container}>
-      <Header title="Calendar"></Header>
+      <Header title="Homework"></Header>
     </View>
   );
 }

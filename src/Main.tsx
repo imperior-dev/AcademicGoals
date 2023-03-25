@@ -5,11 +5,11 @@ import { Constraints } from "../assets/Global";
 import Colors from "../assets/Colors";
 import Images from "../assets/Images";
 
-import Analytics from "./components/Analytics";
-import Homework from "./components/Homework";
-import Home from "./components/Home";
-import Calendar from "./components/Calendar";
-import Settings from "./components/Settings";
+import Analytics from "./screens/Analytics";
+import Homework from "./screens/Homework";
+import Home from "./screens/Home";
+import Calendar from "./screens/Calendar";
+import Settings from "./screens/Settings";
 
 import Navbar from "./components/Navbar";
 
