@@ -1,7 +1,7 @@
 import { Ionicons, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 
-const IconSize = 32;
+const IconSize = 26;
 
 export function AnalyticsIcon(props: any) {
   return (
