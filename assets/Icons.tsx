@@ -1,14 +1,7 @@
 import { Ionicons, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 
-import { Constraints } from "./Global";
-
-const { width, height } = Dimensions.get("window");
-
-let IconSize = width / 12;
-if (Constraints.IsLandscape) {
-  IconSize = height / 26;
-}
+const IconSize = 32;
 
 export function AnalyticsIcon(props: any) {
   return (

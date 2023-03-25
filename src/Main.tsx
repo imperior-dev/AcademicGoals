@@ -1,8 +1,5 @@
-import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 import { useState } from "react";
-
-import { Dimensions } from "react-native";
-const { width } = Dimensions.get("window");
 
 import { Constraints } from "../assets/Global";
 import Colors from "../assets/Colors";
@@ -18,33 +15,34 @@ import Settings from "./components/Settings";
 export default function Main() {
   const [page, setPage] = useState("home");
 
-  if (Constraints.IsLandscape) {
-    return (
-      <View style={landscapeStyle.container}>
-        <View style={landscapeStyle.navbar}>
-          <Navbar setPage={setPage}></Navbar>
-        </View>
-        <View style={landscapeStyle.content}>
-          <View style={landscapeStyle.primarySection}>
-            <Home></Home>
-          </View>
-          <View style={landscapeStyle.sectionsContainer}></View>
-        </View>
-      </View>
-    );
-  }
+  console.log(require("../assets/images/background.jpg"));
+
   return (
-    <View style={portraitStyle.container}>
-      <View style={portraitStyle.backgroundContainer}></View>
-      <View style={portraitStyle.contentContainer}>
-        <View style={portraitStyle.content}>
-          {page == "analytics" ? <Analytics /> : undefined}
-          {page == "homework" ? <Homework /> : undefined}
-          {page == "home" ? <Home /> : undefined}
-          {page == "calendar" ? <Calendar /> : undefined}
-          {page == "settings" ? <Settings /> : undefined}
+    <View style={styles.container}>
+      <View style={styles.backgroundContainer}>
+        {/* <Image
+          style={styles.backgroundImage}
+          source={require("./assets/images/background.jpg")}
+        ></Image> */}
+      </View>
+      <View style={styles.contentContainer}>
+        <View
+          style={[
+            styles.content,
+            page !== "home" ? { borderRadius: 0, flex: 1 } : {},
+          ]}
+        >
+          {
+            {
+              analytics: <Analytics />,
+              homework: <Homework />,
+              home: <Home />,
+              calendar: <Calendar />,
+              settings: <Settings />,
+            }[page]
+          }
         </View>
-        <View style={portraitStyle.navbar}>
+        <View style={styles.navbar}>
           <Navbar setPage={setPage}></Navbar>
         </View>
       </View>
@@ -52,51 +50,7 @@ export default function Main() {
   );
 }
 
-const landscapeStyle = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: Colors.grey,
-  },
-  navbar: {
-    width: 60,
-    backgroundColor: Colors.white,
-  },
-  content: {
-    flex: 1,
-  },
-  primarySection: {
-    flex: 2,
-    margin: Constraints.Margin,
-    borderRadius: Constraints.BorderRadius,
-    backgroundColor: Colors.white,
-  },
-  sectionsContainer: {
-    flex: 5,
-    flexDirection: "row",
-    margin: Constraints.Margin,
-    marginTop: 0,
-  },
-  section1: {
-    flex: 1,
-    marginRight: Constraints.Margin,
-    borderRadius: Constraints.BorderRadius,
-    backgroundColor: Colors.white,
-  },
-  section2: {
-    flex: 1,
-    marginRight: Constraints.Margin,
-    borderRadius: Constraints.BorderRadius,
-    backgroundColor: Colors.white,
-  },
-  section3: {
-    flex: 1,
-    borderRadius: Constraints.BorderRadius,
-    backgroundColor: Colors.white,
-  },
-});
-
-const portraitStyle = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
@@ -108,6 +62,12 @@ const portraitStyle = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: "absolute",
+  },
+  backgroundImage: {
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    // backgroundColor: "black",
   },
   contentContainer: {
     top: 0,
@@ -123,7 +83,6 @@ const portraitStyle = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   navbar: {
-    height: 64,
     backgroundColor: Colors.white,
   },
 });

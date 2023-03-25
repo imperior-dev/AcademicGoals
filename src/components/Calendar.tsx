@@ -1,17 +1,14 @@
 import { View, StyleSheet } from "react-native";
-import { Constraints } from "../../assets/Global";
+import Header from "./Header";
 
 export default function Calendar() {
-  if (Constraints.IsLandscape) {
-    return <View style={landscapeStyle.container}></View>;
-  }
-  return <View style={portraitStyle.container}></View>;
+  return (
+    <View style={styles.container}>
+      <Header title="Calendar"></Header>
+    </View>
+  );
 }
 
-const landscapeStyle = StyleSheet.create({
-  container: {},
-});
-
-const portraitStyle = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {},
 });

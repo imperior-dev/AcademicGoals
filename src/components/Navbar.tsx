@@ -1,7 +1,5 @@
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 
-import { Constraints } from "../../assets/Global";
-
 import {
   AnalyticsIcon,
   CalendarIcon,
@@ -14,20 +12,10 @@ const IconColor = "black";
 
 export default function Navbar(props: any) {
   const { setPage } = props;
-  if (Constraints.IsLandscape) {
-    return (
-      <View style={landscapeStyle.container}>
-        <View style={landscapeStyle.lastIconContainer}>
-          <View>
-            <SettingsIcon color={IconColor} />
-          </View>
-        </View>
-      </View>
-    );
-  }
   return (
-    <View style={portraitStyle.contianer}>
+    <View style={styles.contianer}>
       <TouchableOpacity
+        style={styles.iconContainer}
         onPress={() => {
           setPage("analytics");
         }}
@@ -35,6 +23,7 @@ export default function Navbar(props: any) {
         <AnalyticsIcon color={IconColor} />
       </TouchableOpacity>
       <TouchableOpacity
+        style={styles.iconContainer}
         onPress={() => {
           setPage("homework");
         }}
@@ -42,6 +31,7 @@ export default function Navbar(props: any) {
         <HomeworkIcon color={IconColor} />
       </TouchableOpacity>
       <TouchableOpacity
+        style={styles.iconContainer}
         onPress={() => {
           setPage("home");
         }}
@@ -49,6 +39,7 @@ export default function Navbar(props: any) {
         <HomeIcon color={IconColor} />
       </TouchableOpacity>
       <TouchableOpacity
+        style={styles.iconContainer}
         onPress={() => {
           setPage("calendar");
         }}
@@ -56,6 +47,7 @@ export default function Navbar(props: any) {
         <CalendarIcon color={IconColor} />
       </TouchableOpacity>
       <TouchableOpacity
+        style={styles.iconContainer}
         onPress={() => {
           setPage("settings");
         }}
@@ -66,27 +58,14 @@ export default function Navbar(props: any) {
   );
 }
 
-const landscapeStyle = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 20,
-    alignItems: "center",
-  },
-  icon: {
-    marginTop: 10,
-  },
-  lastIconContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    paddingBottom: 10,
-  },
-});
-
-const portraitStyle = StyleSheet.create({
+const styles = StyleSheet.create({
   contianer: {
-    flex: 1,
+    height: 64,
     flexDirection: "row",
+  },
+  iconContainer: {
+    flex: 1,
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
   },
 });
