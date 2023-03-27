@@ -82,7 +82,9 @@ function IconContainer({
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: Colors.white,
+  },
   line: {
     height: 4,
     marginBottom: 4,

@@ -27,7 +27,7 @@ const templateData: Type = {
     {
       subject: "English",
       timeRequired: 45,
-      dueDate: 1679836205344, //TODO Format for dates ?
+      dueDate: 1679836205344,
     },
   ],
   tasks: [
@@ -40,7 +40,7 @@ const templateData: Type = {
   ],
   stats: [
     {
-      date: 1679836205344, //TODO Format for dates ?
+      date: 1679836205344,
       exp: 356,
       subjects: [
         {
@@ -58,7 +58,10 @@ const templateData: Type = {
       ],
     },
   ],
-  leaderboard: [{ name: "Pie", exp: 123 }],
+  leaderboard: [
+    { name: "Pie", exp: 123 },
+    { name: "Cat", exp: 100 },
+  ],
 };
 
 type Type = {
@@ -104,7 +107,7 @@ type Type = {
       status: number;
     }>;
   }>;
-  leaderboard: [{ name: string; exp: number }];
+  leaderboard: Array<{ name: string; exp: number }>;
 };
 
 class New {
