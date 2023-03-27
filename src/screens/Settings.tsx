@@ -1,45 +1,163 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import Header from "../components/Header";
 
-import ProfileCard from "../components/settings/ProfileCard";
-import StudySlotsCard from "../components/settings/StudySlotsCard";
-import BreakCard from "../components/settings/BreakCard";
-import SubjectsCard from "../components/settings/SubjectsCard";
+import { Constraints, Style } from "../../assets/Global";
+import Colors from "../../assets/Colors";
 
-import { Constraints } from "../../assets/Global";
-import { dataType } from "../Storage";
+import { timeIntegerToString } from "../Functions";
+import * as Storage from "../Storage";
 
 export default function Settings({
   data: { preferences, user },
 }: {
-  data: dataType;
+  data: any;
 }) {
-  return (
-    <View style={styles.container}>
-      <Header title="Settings"></Header>
-      <View style={styles.body}>
-        <Text style={styles.text}>Profile</Text>
-        <ProfileCard name={user.name} />
-        <Text style={styles.text}>Study Slot</Text>
-        <StudySlotsCard studySlots={preferences.studySlots} />
-        <Text style={styles.text}>Break Settings</Text>
-        <BreakCard
-          time={preferences.breakSetting.time}
-          interval={preferences.breakSetting.interval}
+  const ProfileCard = () => {
+    return (
+      <View
+        style={{
+          padding: Constraints.Margin,
+          borderRadius: Constraints.BorderRadius / 2,
+          backgroundColor: "pink",
+        }}
+      >
+        <Text
+          style={{
+            color: Colors.white,
+          }}
+        >
+          {user.name}
+        </Text>
+      </View>
+    );
+  };
+
+  const BreakCard = () => {
+    return (
+      <View
+        style={{
+          padding: Constraints.Margin,
+          borderRadius: Constraints.BorderRadius / 2,
+          backgroundColor: "pink",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text>A break for</Text>
+        <Text>{timeIntegerToString(preferences.breakSetting.time, true)}</Text>
+        <Text>every</Text>
+        <Text>
+          {timeIntegerToString(preferences.breakSetting.interval, true)}
+        </Text>
+      </View>
+    );
+  };
+
+  const StudySlotsCard = () => {
+    const Slot = ({ from, to }: { from: number; to: number }) => {
+      return (
+        <View
+          style={{
+            borderColor: Colors.white,
+            borderBottomWidth: 2,
+            borderRadius: 1,
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 5 }}>From</Text>
+          <Text style={{ flex: 5 }}>{timeIntegerToString(from)}</Text>
+          <View style={{ flex: 4 }}></View>
+          <Text style={{ flex: 5 }}>To</Text>
+          <Text style={{ flex: 5 }}>{timeIntegerToString(to)}</Text>
+        </View>
+      );
+    };
+    return (
+      <View
+        style={{
+          padding: Constraints.Margin,
+          borderRadius: Constraints.BorderRadius / 2,
+          backgroundColor: "pink",
+        }}
+      >
+        <FlatList
+          data={preferences.studySlots}
+          renderItem={({
+            item: { from, to },
+          }: {
+            item: Storage.Type["preferences"]["studySlots"][0];
+          }) => <Slot from={from} to={to} />}
         />
-        <Text style={styles.text}>Subjects</Text>
-        <SubjectsCard subjects={preferences.subjects} />
+      </View>
+    );
+  };
+
+  const SubjectsCard = () => {
+    const Slot = ({
+      name,
+      importance,
+    }: {
+      name: string;
+      importance: string;
+    }) => {
+      return (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            borderColor: Colors.white,
+            borderBottomWidth: 2,
+            borderRadius: 1,
+          }}
+        >
+          <Text>{name}</Text>
+          <Text>{importance}</Text>
+        </View>
+      );
+    };
+
+    return (
+      <View
+        style={{
+          padding: Constraints.Margin,
+          borderRadius: Constraints.BorderRadius / 2,
+          backgroundColor: "pink",
+        }}
+      >
+        <FlatList
+          data={preferences.subjects}
+          renderItem={({ item: { name, importance } }) => (
+            <Slot
+              name={name}
+              importance={
+                ["Very Important", "Fairly Important", "Slightly Important"][
+                  Math.round(importance * 2)
+                ]
+              }
+            />
+          )}
+        />
+      </View>
+    );
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Header title="Settings"></Header>
+      <View
+        style={{
+          padding: Constraints.Margin,
+        }}
+      >
+        <Text style={Style.heading}>Profile</Text>
+        <ProfileCard />
+        <Text style={Style.heading}>Study Slot</Text>
+        <StudySlotsCard />
+        <Text style={Style.heading}>Break Settings</Text>
+        <BreakCard />
+        <Text style={Style.heading}>Subjects</Text>
+        <SubjectsCard />
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  body: {
-    padding: Constraints.Margin,
-  },
-  text: {},
-});

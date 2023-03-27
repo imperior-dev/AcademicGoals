@@ -2,9 +2,9 @@ import { View, FlatList, StyleSheet } from "react-native";
 
 import Header from "../components/Header";
 import HomeworkCard from "../components/homework/HomeworkCard";
-import { dataType } from "../Storage";
+import * as Storage from "../Storage";
 
-export default function Homework({ data: { homework } }: { data: dataType }) {
+export default function Homework({ data: { homework } }: { data: any }) {
   return (
     <View style={styles.container}>
       <Header title="Homework"></Header>
@@ -13,7 +13,7 @@ export default function Homework({ data: { homework } }: { data: dataType }) {
         renderItem={({
           item: { subject, timeRequired, dueDate },
         }: {
-          item: dataType["homework"][0];
+          item: Storage.Type["homework"][0];
         }) => (
           <HomeworkCard
             subject={subject}

@@ -6,8 +6,8 @@ import { useFonts } from "expo-font";
 
 import Main from "./src/Main";
 
-import { Storage } from "./src/Storage";
-const storage = new Storage();
+import * as Storage from "./src/Storage";
+const storage = new Storage.New();
 
 SplashScreen.preventAutoHideAsync();
 
@@ -19,7 +19,6 @@ export default function App() {
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded && storage.data !== undefined) {
       await SplashScreen.hideAsync();
-      console.log(storage.data);
     }
   }, [fontsLoaded, storage.data]);
 

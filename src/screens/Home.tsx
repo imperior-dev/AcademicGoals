@@ -1,7 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
+
 import Colors from "../../assets/Colors";
 
-export default function Home() {
+import * as Storage from "../Storage";
+
+export default function Home({ data }: { data: any }) {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>

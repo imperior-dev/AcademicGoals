@@ -7,9 +7,8 @@ import Leaderboard from "../components/analytics/Leaderboard";
 import TodaysReport from "../components/analytics/TodaysReport";
 import WeeksReport from "../components/analytics/WeeksReport";
 import MonthsReport from "../components/analytics/MonthsReport";
-import { dataType } from "../Storage";
 
-export default function Analytics({ data }: { data: dataType }) {
+export default function Analytics({ data }: { data: any }) {
   return (
     <View>
       <Header title="Analytics"></Header>

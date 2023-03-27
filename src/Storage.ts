@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system";
 
-const templateData: dataType = {
+const templateData: Type = {
   user: {
     name: "Aoi",
     password: "1234", //TODO
@@ -61,7 +61,7 @@ const templateData: dataType = {
   leaderboard: [{ name: "Pie", exp: 123 }],
 };
 
-type dataType = {
+type Type = {
   user: {
     name: string;
     password: string; //TODO
@@ -107,9 +107,9 @@ type dataType = {
   leaderboard: [{ name: string; exp: number }];
 };
 
-export class Storage {
+class New {
   private fileUri: string;
-  public data: dataType | undefined;
+  public data: Type | undefined;
   constructor() {
     this.fileUri = FileSystem.documentDirectory + "data.json";
 
@@ -151,4 +151,4 @@ export class Storage {
   }
 }
 
-export { dataType };
+export { Type, New };

@@ -1,93 +1,172 @@
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
+
 import Colors from "../../assets/Colors";
 import { Constraints } from "../../assets/Global";
+import { EditsIcon } from "../../assets/Icons";
+import { timeIntegerToString } from "../Functions";
 
 import Header from "../components/Header";
-import TaskBlock from "../components/TaskBlock";
-import { dataType } from "../Storage";
+import * as Storage from "../Storage";
 
-const data = [
-  {
-    start: 0,
-    end: 45,
-    name: "English",
-    id: 0,
-  },
-  {
-    start: 60,
-    end: 120,
-    name: "Math",
-    id: 1,
-  },
-  {
-    start: 120,
-    end: 150,
-    name: "SST",
-    id: 2,
-  },
-  // {
-  //   start: 60,
-  //   end: 120,
-  //   name: "Math",
-  //   id: 3,
-  // },
-  // {
-  //   start: 120,
-  //   end: 150,
-  //   name: "Math",
-  //   id: 4,
-  // },
-  // {
-  //   start: 120,
-  //   end: 150,
-  //   name: "Math",
-  //   id: 5,
-  // },
-];
+export default function Schedule({ data: { tasks } }: { data: any }) {
+  const TaskBlock = ({
+    start,
+    end,
+    subject,
+  }: {
+    start: number;
+    end: number;
+    subject: string;
+  }) => {
+    const duration = end - start;
+    const cardHeight = duration < 30 ? 64 : Math.floor((duration / 30) * 64);
 
-export default function Schedule({ data: { tasks } }: { data: dataType }) {
+    const FontColor = "#505050";
+
+    const styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        paddingLeft: Constraints.Margin,
+        paddingRight: Constraints.Margin,
+        flexDirection: "row",
+      },
+      timeDivider: {
+        height: 1,
+        width: "60%",
+        backgroundColor: Colors.grey,
+      },
+      timeBlock: {
+        width: 64,
+        backgroundColor: Colors.white,
+        borderColor: Colors.grey,
+        borderRightWidth: 1,
+        borderLeftWidth: 1,
+        alignItems: "center",
+        justifyContent: "space-between",
+      },
+      startTime: {
+        marginTop: 13,
+        fontFamily: "Sora",
+        fontSize: 12,
+        color: FontColor,
+      },
+      endTime: {
+        marginBottom: 13,
+        fontFamily: "Sora",
+        fontSize: 12,
+        color: FontColor,
+      },
+      taskContainer: {
+        flex: 1,
+        marginBottom: 5,
+      },
+      taskDivider: {
+        height: 1,
+        marginTop: 5,
+        width: "100%",
+        backgroundColor: Colors.grey,
+      },
+      taskCard: {
+        marginTop: 5,
+        flexDirection: "row",
+        borderBottomRightRadius: Constraints.BorderRadius / 2,
+        borderTopRightRadius: Constraints.BorderRadius / 2,
+        backgroundColor: "#0FDA85",
+      },
+      nameContainer: {
+        flex: 1,
+        justifyContent: "center",
+      },
+      timeContainer: {
+        justifyContent: "center",
+      },
+      editIconContainer: {
+        flex: 0,
+        alignItems: "flex-end",
+        paddingTop: 8,
+        paddingRight: 8,
+      },
+      name: {
+        marginLeft: 16,
+        color: Colors.white,
+        fontSize: 22,
+        fontWeight: "bold",
+      },
+      time: {
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: "bold",
+      },
+    });
+
+    return (
+      <View style={styles.container}>
+        <View style={styles.timeBlock}>
+          <Text style={styles.startTime}>{timeIntegerToString(start)}</Text>
+          <View style={styles.timeDivider} />
+          <Text style={styles.endTime}>{timeIntegerToString(end)}</Text>
+        </View>
+        <View style={styles.taskContainer}>
+          <View style={styles.taskDivider} />
+          <View style={[styles.taskCard, { height: cardHeight }]}>
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>{subject}</Text>
+            </View>
+            <View style={styles.timeContainer}>
+              <Text style={styles.time}>
+                {timeIntegerToString(end - start, true)}
+              </Text>
+            </View>
+            <View style={styles.editIconContainer}>
+              <EditsIcon color="white" />
+            </View>
+          </View>
+          <View style={styles.taskDivider} />
+        </View>
+      </View>
+    );
+  };
+
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       <Header title="Schedule"></Header>
       <View style={{ flex: 1 }}>
-        <View style={styles.extraTop}></View>
+        <View
+          style={{
+            flex: 1,
+            marginLeft: Constraints.Margin,
+            maxHeight: 16,
+            width: 64,
+            backgroundColor: Colors.white,
+            borderColor: Colors.grey,
+            borderRightWidth: 1,
+            borderLeftWidth: 1,
+          }}
+        ></View>
         <View style={{ maxHeight: "100%" }}>
           <FlatList
             data={tasks}
-            renderItem={({
-              item: { start, end, subject },
-            }: {
-              item: dataType["tasks"][0];
-            }) => <TaskBlock start={start} end={end} subject={subject} />}
+            renderItem={({ item: { start, end, subject } }) => (
+              <TaskBlock start={start} end={end} subject={subject} />
+            )}
           />
         </View>
-        <View style={styles.extraBottom}></View>
+        <View
+          style={{
+            flexGrow: 1,
+            marginLeft: Constraints.Margin,
+            width: 64,
+            backgroundColor: Colors.white,
+            borderColor: Colors.grey,
+            borderRightWidth: 1,
+            borderLeftWidth: 1,
+          }}
+        ></View>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  extraTop: {
-    flex: 1,
-    marginLeft: Constraints.Margin,
-    maxHeight: 16,
-    width: 64,
-    backgroundColor: Colors.white,
-    borderColor: Colors.grey,
-    borderRightWidth: 1,
-    borderLeftWidth: 1,
-  },
-  extraBottom: {
-    flexGrow: 1,
-    marginLeft: Constraints.Margin,
-    width: 64,
-    backgroundColor: Colors.white,
-    borderColor: Colors.grey,
-    borderRightWidth: 1,
-    borderLeftWidth: 1,
-  },
-});
