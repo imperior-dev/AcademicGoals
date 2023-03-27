@@ -6,6 +6,9 @@ import { useFonts } from "expo-font";
 
 import Main from "./src/Main";
 
+import { Storage } from "./src/Storage";
+const storage = new Storage();
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -14,10 +17,11 @@ export default function App() {
   });
 
   const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
+    if (fontsLoaded && storage.data !== undefined) {
       await SplashScreen.hideAsync();
+      console.log(storage.data);
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, storage.data]);
 
   if (!fontsLoaded) {
     return null;
@@ -25,7 +29,7 @@ export default function App() {
 
   return (
     <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-      <Main />
+      <Main storage={storage} />
     </View>
   );
 }
