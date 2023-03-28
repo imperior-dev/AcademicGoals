@@ -21,8 +21,6 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
     const duration = end - start;
     const cardHeight = duration < 30 ? 64 : Math.floor((duration / 30) * 64);
 
-    const FontColor = "#505050";
-
     const styles = StyleSheet.create({
       container: {
         flex: 1,
@@ -38,9 +36,9 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
       timeBlock: {
         width: 64,
         backgroundColor: Colors.white,
-        borderColor: Colors.grey,
-        borderRightWidth: 1,
-        borderLeftWidth: 1,
+        borderColor: Colors.dark,
+        borderRightWidth: 2,
+        borderLeftWidth: 2,
         alignItems: "center",
         justifyContent: "space-between",
       },
@@ -48,13 +46,13 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
         marginTop: 13,
         fontFamily: "Sora",
         fontSize: 12,
-        color: FontColor,
+        color: Colors.black,
       },
       endTime: {
         marginBottom: 13,
         fontFamily: "Sora",
         fontSize: 12,
-        color: FontColor,
+        color: Colors.black,
       },
       taskContainer: {
         flex: 1,
@@ -71,7 +69,9 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
         flexDirection: "row",
         borderBottomRightRadius: Constraints.BorderRadius / 2,
         borderTopRightRadius: Constraints.BorderRadius / 2,
-        backgroundColor: "#0FDA85",
+        borderWidth: 2,
+        borderLeftWidth: 0,
+        borderColor: Colors.dark,
       },
       nameContainer: {
         flex: 1,
@@ -88,12 +88,12 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
       },
       name: {
         marginLeft: 16,
-        color: Colors.white,
+        color: Colors.black,
         fontSize: 22,
         fontWeight: "bold",
       },
       time: {
-        color: Colors.white,
+        color: Colors.black,
         fontSize: 16,
         fontWeight: "bold",
       },
@@ -118,7 +118,7 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
               </Text>
             </View>
             <View style={styles.editIconContainer}>
-              <EditsIcon color="white" />
+              <EditsIcon color={Colors.dark} />
             </View>
           </View>
           <View style={styles.taskDivider} />
@@ -142,9 +142,9 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
             maxHeight: 16,
             width: 64,
             backgroundColor: Colors.white,
-            borderColor: Colors.grey,
-            borderRightWidth: 1,
-            borderLeftWidth: 1,
+            borderColor: Colors.dark,
+            borderRightWidth: 2,
+            borderLeftWidth: 2,
           }}
         ></View>
         <View style={{ maxHeight: "100%" }}>
@@ -161,9 +161,9 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
             marginLeft: Constraints.Margin,
             width: 64,
             backgroundColor: Colors.white,
-            borderColor: Colors.grey,
-            borderRightWidth: 1,
-            borderLeftWidth: 1,
+            borderColor: Colors.dark,
+            borderRightWidth: 2,
+            borderLeftWidth: 2,
           }}
         ></View>
       </View>

@@ -31,9 +31,10 @@ export default function Analytics({ data }: { data: Type }) {
               <View
                 style={{
                   flexDirection: "row",
-                  backgroundColor: "pink",
                   padding: Constraints.Margin / 2,
                   borderRadius: Constraints.BorderRadius / 2,
+                  borderWidth: 2,
+                  borderColor: Colors.dark,
                 }}
               >
                 <Text style={{ flex: 1 }}>{rankCounter}</Text>
@@ -88,7 +89,8 @@ export default function Analytics({ data }: { data: Type }) {
         padding: Constraints.Margin / 2,
         alignItems: "center",
         borderRadius: Constraints.BorderRadius / 2,
-        backgroundColor: "pink",
+        borderWidth: 2,
+        borderColor: Colors.dark,
       },
       text: {
         fontFamily: "Sora",
@@ -133,9 +135,15 @@ export default function Analytics({ data }: { data: Type }) {
         margin: 10,
         marginBottom: 0,
         flex: 1,
-        borderTopLeftRadius: Constraints.BorderRadius / 3,
-        borderTopRightRadius: Constraints.BorderRadius / 3,
-        backgroundColor: Colors.white,
+        borderTopWidth: 2,
+        height: 5,
+        borderColor: Colors.dark,
+        borderRadius: Constraints.BorderRadius,
+      },
+      text: {
+        flex: 1,
+        textAlign: "center",
+        fontSize: 14,
       },
     });
 
@@ -144,11 +152,12 @@ export default function Analytics({ data }: { data: Type }) {
     return (
       <View
         style={{
-          height: 160,
-          backgroundColor: "pink",
+          height: 170,
           borderRadius: Constraints.BorderRadius / 2,
           padding: Constraints.Margin / 1.5,
           paddingBottom: 0,
+          borderWidth: 2,
+          borderColor: Colors.dark,
         }}
       >
         <View
@@ -159,15 +168,15 @@ export default function Analytics({ data }: { data: Type }) {
             alignItems: "flex-end",
           }}
         >
-          <View style={[styles.bar, { height: "50%" }]}></View>
-          <View style={[styles.bar, { height: "60%" }]}></View>
-          <View style={[styles.bar, { height: "70%" }]}></View>
-          <View style={[styles.bar, { height: "30%" }]}></View>
-          <View style={[styles.bar, { height: "90%" }]}></View>
-          <View style={[styles.bar, { height: "20%" }]}></View>
-          <View style={[styles.bar, { height: "40%" }]}></View>
+          <View style={[styles.bar, { marginBottom: 120 }]}></View>
+          <View style={[styles.bar, { marginBottom: 100 }]}></View>
+          <View style={[styles.bar, { marginBottom: 80 }]}></View>
+          <View style={[styles.bar, { marginBottom: 60 }]}></View>
+          <View style={[styles.bar, { marginBottom: 40 }]}></View>
+          <View style={[styles.bar, { marginBottom: 20 }]}></View>
+          <View style={[styles.bar, { marginBottom: 0 }]}></View>
         </View>
-        <View style={{ height: 1, backgroundColor: "white" }}></View>
+        <View style={{ height: 1, backgroundColor: Colors.dark }}></View>
         <View
           style={{
             flexDirection: "row",
@@ -176,13 +185,13 @@ export default function Analytics({ data }: { data: Type }) {
             height: 24,
           }}
         >
-          <Text style={{ flex: 1, textAlign: "center" }}>Mon</Text>
-          <Text style={{ flex: 1, textAlign: "center" }}>Tue</Text>
-          <Text style={{ flex: 1, textAlign: "center" }}>Web</Text>
-          <Text style={{ flex: 1, textAlign: "center" }}>Thus</Text>
-          <Text style={{ flex: 1, textAlign: "center" }}>Fri</Text>
-          <Text style={{ flex: 1, textAlign: "center" }}>Sat</Text>
-          <Text style={{ flex: 1, textAlign: "center" }}>Sun</Text>
+          <Text style={[Style.text, styles.text]}>Mon</Text>
+          <Text style={[Style.text, styles.text]}>Tue</Text>
+          <Text style={[Style.text, styles.text]}>Web</Text>
+          <Text style={[Style.text, styles.text]}>Thus</Text>
+          <Text style={[Style.text, styles.text]}>Fri</Text>
+          <Text style={[Style.text, styles.text]}>Sat</Text>
+          <Text style={[Style.text, styles.text]}>Sun</Text>
         </View>
       </View>
     );

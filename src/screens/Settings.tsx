@@ -1,4 +1,10 @@
-import { View, Text, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  ImageBackground,
+  ScrollView,
+} from "react-native";
 import Header from "../components/Header";
 
 import { Constraints, Style } from "../../assets/Global";
@@ -6,9 +12,10 @@ import Colors from "../../assets/Colors";
 
 import { timeIntegerToString } from "../Functions";
 import * as Storage from "../Storage";
+import Images from "../../assets/Images";
 
 export default function Settings({
-  data: { preferences, user },
+  data: { preferences, user, stats },
 }: {
   data: any;
 }) {
@@ -16,38 +23,32 @@ export default function Settings({
     return (
       <View
         style={{
-          padding: Constraints.Margin,
           borderRadius: Constraints.BorderRadius / 2,
-          backgroundColor: "pink",
+          padding: Constraints.Margin / 2,
+          paddingLeft: Constraints.Margin,
+          paddingRight: Constraints.Margin,
+          justifyContent: "space-between",
+          flexDirection: "row",
+          alignItems: "center",
+          height: 64,
+          borderWidth: 2,
+          borderColor: Colors.dark,
         }}
       >
         <Text
           style={{
-            color: Colors.white,
+            color: "black",
+            fontFamily: "Sora",
+            fontSize: 20,
+            flex: 1,
           }}
         >
           {user.name}
         </Text>
-      </View>
-    );
-  };
-
-  const BreakCard = () => {
-    return (
-      <View
-        style={{
-          padding: Constraints.Margin,
-          borderRadius: Constraints.BorderRadius / 2,
-          backgroundColor: "pink",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Text>A break for</Text>
-        <Text>{timeIntegerToString(preferences.breakSetting.time, true)}</Text>
-        <Text>every</Text>
-        <Text>
-          {timeIntegerToString(preferences.breakSetting.interval, true)}
+        <Text
+          style={[Style.text, { width: 70, fontSize: 14, textAlign: "right" }]}
+        >
+          {stats[stats.length - 1].exp + " Exp"}
         </Text>
       </View>
     );
@@ -58,26 +59,32 @@ export default function Settings({
       return (
         <View
           style={{
-            borderColor: Colors.white,
-            borderBottomWidth: 2,
+            borderColor: Colors.dark,
+            borderBottomWidth: 1,
             borderRadius: 1,
             flexDirection: "row",
+            height: 32,
           }}
         >
-          <Text style={{ flex: 5 }}>From</Text>
-          <Text style={{ flex: 5 }}>{timeIntegerToString(from)}</Text>
-          <View style={{ flex: 4 }}></View>
-          <Text style={{ flex: 5 }}>To</Text>
-          <Text style={{ flex: 5 }}>{timeIntegerToString(to)}</Text>
+          <Text style={[{ flex: 3 }, Style.text]}>From</Text>
+          <Text style={[{ flex: 5 }, Style.text]}>
+            {timeIntegerToString(from)}
+          </Text>
+          <View style={[{ flex: 1 }]}></View>
+          <Text style={[{ flex: 2 }, Style.text]}>To</Text>
+          <Text style={[{ flex: 0 }, Style.text]}>
+            {timeIntegerToString(to)}
+          </Text>
         </View>
       );
     };
     return (
       <View
         style={{
-          padding: Constraints.Margin,
           borderRadius: Constraints.BorderRadius / 2,
-          backgroundColor: "pink",
+          padding: Constraints.Margin,
+          borderWidth: 2,
+          borderColor: Colors.dark,
         }}
       >
         <FlatList
@@ -88,6 +95,29 @@ export default function Settings({
             item: Storage.Type["preferences"]["studySlots"][0];
           }) => <Slot from={from} to={to} />}
         />
+      </View>
+    );
+  };
+  const BreakCard = () => {
+    return (
+      <View
+        style={{
+          padding: Constraints.Margin,
+          borderRadius: Constraints.BorderRadius / 2,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          borderWidth: 2,
+          borderColor: Colors.dark,
+        }}
+      >
+        <Text style={Style.text}>A break for</Text>
+        <Text style={Style.text}>
+          {timeIntegerToString(preferences.breakSetting.time, true)}
+        </Text>
+        <Text style={Style.text}>every</Text>
+        <Text style={Style.text}>
+          {timeIntegerToString(preferences.breakSetting.interval, true)}
+        </Text>
       </View>
     );
   };
@@ -105,13 +135,15 @@ export default function Settings({
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            borderColor: Colors.white,
-            borderBottomWidth: 2,
+            borderColor: Colors.dark,
+            borderBottomWidth: 1,
             borderRadius: 1,
+            height: 32,
+            marginBottom: 6,
           }}
         >
-          <Text>{name}</Text>
-          <Text>{importance}</Text>
+          <Text style={Style.text}>{name}</Text>
+          <Text style={Style.text}>{importance}</Text>
         </View>
       );
     };
@@ -120,8 +152,10 @@ export default function Settings({
       <View
         style={{
           padding: Constraints.Margin,
+          paddingBottom: Constraints.Margin / 2,
           borderRadius: Constraints.BorderRadius / 2,
-          backgroundColor: "pink",
+          borderWidth: 2,
+          borderColor: Colors.dark,
         }}
       >
         <FlatList
@@ -141,22 +175,28 @@ export default function Settings({
     );
   };
 
+  const elements = [
+    <Text style={Style.heading}>Profile</Text>,
+    <ProfileCard />,
+    <Text style={Style.heading}>Study Slot</Text>,
+    <StudySlotsCard />,
+    <Text style={Style.heading}>Break Settings</Text>,
+    <BreakCard />,
+    <Text style={Style.heading}>Subjects</Text>,
+    <SubjectsCard />,
+  ];
+
   return (
     <View style={{ flex: 1 }}>
       <Header title="Settings"></Header>
       <View
         style={{
           padding: Constraints.Margin,
+          paddingTop: 10,
+          marginBottom: 80,
         }}
       >
-        <Text style={Style.heading}>Profile</Text>
-        <ProfileCard />
-        <Text style={Style.heading}>Study Slot</Text>
-        <StudySlotsCard />
-        <Text style={Style.heading}>Break Settings</Text>
-        <BreakCard />
-        <Text style={Style.heading}>Subjects</Text>
-        <SubjectsCard />
+        <FlatList data={elements} renderItem={({ item }) => item} />
       </View>
     </View>
   );

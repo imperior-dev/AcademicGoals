@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import Colors from "./Colors";
 
 const Constraints = {
   Margin: 20,
@@ -17,6 +18,14 @@ const Style = StyleSheet.create({
     fontFamily: "Sora",
     fontSize: 18,
     fontWeight: "500",
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  text: {
+    fontFamily: "Sora",
+    fontSize: 16,
+    fontWeight: "900",
+    color: "black",
   },
 });
 

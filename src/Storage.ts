@@ -17,6 +17,10 @@ const templateData: Type = {
         from: 120, //In custom time format
         to: 360, //In custom time format
       },
+      {
+        from: 720, //In custom time format
+        to: 840, //In custom time format
+      },
     ],
     subjects: [
       { name: "Math", importance: 1 },
@@ -26,6 +30,16 @@ const templateData: Type = {
   homework: [
     {
       subject: "English",
+      timeRequired: 45,
+      dueDate: 1679836205344,
+    },
+    {
+      subject: "Math",
+      timeRequired: 45,
+      dueDate: 1679836205344,
+    },
+    {
+      subject: "SST",
       timeRequired: 45,
       dueDate: 1679836205344,
     },
@@ -116,10 +130,10 @@ class New {
   constructor() {
     this.fileUri = FileSystem.documentDirectory + "data.json";
 
-    // FileSystem.writeAsStringAsync(
-    //   this.fileUri,
-    //   JSON.stringify(templateData, null, 4)
-    // );
+    FileSystem.writeAsStringAsync(
+      this.fileUri,
+      JSON.stringify(templateData, null, 4)
+    );
 
     FileSystem.readAsStringAsync(this.fileUri)
       .then((contents) => {

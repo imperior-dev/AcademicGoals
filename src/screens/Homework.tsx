@@ -2,7 +2,8 @@ import { View, Text, FlatList, StyleSheet } from "react-native";
 
 import Header from "../components/Header";
 
-import { Constraints } from "../../assets/Global";
+import { Constraints, Style } from "../../assets/Global";
+import Colors from "../../assets/Colors";
 import * as Storage from "../Storage";
 
 export default function Homework({ data: { homework } }: { data: any }) {
@@ -18,7 +19,8 @@ export default function Homework({ data: { homework } }: { data: any }) {
           height: 72,
           borderRadius: Constraints.BorderRadius,
           overflow: "hidden",
-          backgroundColor: "pink",
+          borderWidth: 2,
+          borderColor: Colors.dark,
         }}
       >
         <View
@@ -28,9 +30,20 @@ export default function Homework({ data: { homework } }: { data: any }) {
             alignItems: "flex-end",
           }}
         >
-          <Text style={{ flex: 1, textAlign: "center" }}>{subject}</Text>
-          <Text style={{ flex: 1, textAlign: "center" }}>{timeRequired}</Text>
-          <Text style={{ flex: 1, textAlign: "center" }}>{dateString}</Text>
+          <Text
+            style={[
+              Style.heading,
+              { flex: 1, textAlign: "center", marginBottom: -2 },
+            ]}
+          >
+            {subject}
+          </Text>
+          <Text style={[Style.text, { flex: 1, textAlign: "center" }]}>
+            {timeRequired}
+          </Text>
+          <Text style={[Style.text, { flex: 1, textAlign: "center" }]}>
+            {dateString}
+          </Text>
         </View>
         <View
           style={{
@@ -39,8 +52,16 @@ export default function Homework({ data: { homework } }: { data: any }) {
           }}
         >
           <View style={{ flex: 1 }} />
-          <Text style={{ flex: 1, textAlign: "center" }}>Time Required</Text>
-          <Text style={{ flex: 1, textAlign: "center" }}>Due Date</Text>
+          <Text
+            style={[Style.text, { flex: 1, textAlign: "center", fontSize: 12 }]}
+          >
+            Time Required
+          </Text>
+          <Text
+            style={[Style.text, { flex: 1, textAlign: "center", fontSize: 12 }]}
+          >
+            Due Date
+          </Text>
         </View>
       </View>
     );

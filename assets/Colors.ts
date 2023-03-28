@@ -3,5 +3,6 @@ export default {
   white: "#FFFFFF",
   blue: "#48C8FF",
   orange: "#FF7F48",
-  dark: "#606060",
+  dark: "#706677",
+  black: "black",
 };
