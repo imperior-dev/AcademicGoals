@@ -4,10 +4,9 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  StyleSheet,
   GestureResponderEvent,
 } from "react-native";
-import { useState, useRef, ReactNode } from "react";
+import { useState } from "react";
 
 import * as Storage from "./Storage";
 
@@ -24,19 +23,19 @@ import {
 } from "./screens/Screens";
 
 import Navbar from "./components/Navbar";
+import Input from "./components/Input";
 
 export default function Main({ storage }: { storage: Storage.New }) {
   StatusBar.setBarStyle("light-content");
 
   const [page, setPage] = useState("home");
-  const [Input, AskInput] = useState<
-    | undefined
-    | {
-        element: Function;
-        submitText: string;
-        submitFunction: (event: GestureResponderEvent) => void;
-      }
-  >(undefined);
+  const [input, setInput] = useState<null | {
+    Element: Function;
+    submit: {
+      text: string;
+      function: () => boolean;
+    };
+  }>(null);
 
   if (storage.data == undefined) return null;
 
@@ -57,23 +56,11 @@ export default function Main({ storage }: { storage: Storage.New }) {
           homework: <Homework data={storage.data} />,
           home: <Home data={storage.data} />,
           calendar: <Schedule data={storage.data} />,
-          settings: <Settings data={storage.data} AskInput={AskInput} />,
+          settings: <Settings data={storage.data} AskInput={setInput} />,
         }[page]
       }
     </View>
   );
-
-  const styles = StyleSheet.create({
-    buttonContainer: {
-      flex: 1,
-      margin: 10,
-      borderRadius: 15,
-      borderColor: Colors.grey,
-      borderWidth: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-  });
 
   return (
     <View
@@ -90,69 +77,12 @@ export default function Main({ storage }: { storage: Storage.New }) {
         <Body />
         <Navbar page={page} setPage={setPage}></Navbar>
       </View>
-      {Input !== undefined ? (
-        <View
-          style={[
-            Style.absoluteFlex,
-            {
-              zIndex: Input ? undefined : -1,
-              flex: 1,
-              backgroundColor: "rgba(0,0,0,0.7)",
-              padding: Constraints.Margin,
-              flexDirection: "row",
-              alignItems: "center",
-              position: "relative",
-            },
-          ]}
-        >
-          <TouchableOpacity
-            style={Style.absoluteFlex}
-            onPress={() => AskInput(undefined)}
-          />
-          <View
-            style={{
-              flex: 1,
-              width: "100%",
-              aspectRatio: 12 / 9,
-              backgroundColor: "white",
-              borderRadius: Constraints.BorderRadius,
-              overflow: "hidden",
-            }}
-          >
-            <View style={{ flex: 1 }}>
-              <Input.element />
-            </View>
-            <View
-              style={{
-                height: 64,
-                flexDirection: "row",
-                backgroundColor: Colors.grey,
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity
-                style={styles.buttonContainer}
-                onPress={() => AskInput(undefined)}
-              >
-                <Text style={Style.text}>Cancel</Text>
-              </TouchableOpacity>
-              <View
-                style={{
-                  height: "60%",
-                  width: 2,
-                  borderRadius: 2,
-                  backgroundColor: Colors.dark,
-                }}
-              />
-              <TouchableOpacity
-                style={styles.buttonContainer}
-                onPress={Input.submitFunction}
-              >
-                <Text style={Style.text}>{Input.submitText}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+      {input ? (
+        <Input
+          Element={input.Element}
+          submit={input.submit}
+          Cancel={() => setInput(null)}
+        />
       ) : undefined}
     </View>
   );

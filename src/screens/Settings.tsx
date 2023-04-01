@@ -25,7 +25,7 @@ export default function Settings({
       <TouchableOpacity
         onPress={() => {
           AskInput({
-            element: () => {
+            Element: () => {
               let name = user.name;
               return (
                 <View style={{ flex: 1 }}>
@@ -39,8 +39,13 @@ export default function Settings({
                 </View>
               );
             },
-            submitText: "Submit",
-            submitFunction: console.log,
+            submit: {
+              text: "Submit",
+              function: () => {
+                console.log("Submited!");
+                return true;
+              },
+            },
           });
         }}
       >
