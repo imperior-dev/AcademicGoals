@@ -2,8 +2,8 @@ import {
   View,
   Text,
   FlatList,
-  ImageBackground,
-  ScrollView,
+  TextInput,
+  TouchableOpacity,
 } from "react-native";
 import Header from "../components/Header";
 
@@ -12,45 +12,72 @@ import Colors from "../../assets/Colors";
 
 import { timeIntegerToString } from "../Functions";
 import * as Storage from "../Storage";
-import Images from "../../assets/Images";
 
 export default function Settings({
   data: { preferences, user, stats },
+  AskInput,
 }: {
   data: any;
+  AskInput: Function;
 }) {
   const ProfileCard = () => {
     return (
-      <View
-        style={{
-          borderRadius: Constraints.BorderRadius / 2,
-          padding: Constraints.Margin / 2,
-          paddingLeft: Constraints.Margin,
-          paddingRight: Constraints.Margin,
-          justifyContent: "space-between",
-          flexDirection: "row",
-          alignItems: "center",
-          height: 64,
-          borderWidth: 2,
-          borderColor: Colors.dark,
+      <TouchableOpacity
+        onPress={() => {
+          AskInput({
+            element: () => {
+              let name = user.name;
+              return (
+                <View style={{ flex: 1 }}>
+                  <Text style={Style.heading}>Your Name</Text>
+                  <TextInput
+                    style={Style.text}
+                    maxLength={20}
+                    onChangeText={(value) => (name = value)}
+                  />
+                  <View></View>
+                </View>
+              );
+            },
+            submitText: "Submit",
+            submitFunction: console.log,
+          });
         }}
       >
-        <Text
+        <View
           style={{
-            color: "black",
-            fontFamily: "Sora",
-            fontSize: 20,
-            flex: 1,
+            borderRadius: Constraints.BorderRadius / 2,
+            padding: Constraints.Margin / 2,
+            paddingLeft: Constraints.Margin,
+            paddingRight: Constraints.Margin,
+            justifyContent: "space-between",
+            flexDirection: "row",
+            alignItems: "center",
+            height: 64,
+            borderWidth: 2,
+            borderColor: Colors.dark,
           }}
         >
-          {user.name}
-        </Text>
-        <Text
-          style={[Style.text, { width: 70, fontSize: 14, textAlign: "right" }]}
-        >
-          {stats[stats.length - 1].exp + " Exp"}
-        </Text>
-      </View>
+          <Text
+            style={{
+              color: "black",
+              fontFamily: "Sora",
+              fontSize: 20,
+              flex: 1,
+            }}
+          >
+            {user.name}
+          </Text>
+          <Text
+            style={[
+              Style.text,
+              { width: 70, fontSize: 14, textAlign: "right" },
+            ]}
+          >
+            {stats[stats.length - 1].exp + " Exp"}
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 

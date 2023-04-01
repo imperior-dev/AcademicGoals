@@ -15,6 +15,7 @@ export default function Homework({ data: { homework } }: { data: any }) {
       <View
         style={{
           margin: Constraints.Margin,
+          marginTop: 0,
           marginBottom: 0,
           height: 72,
           borderRadius: Constraints.BorderRadius,
@@ -72,6 +73,10 @@ export default function Homework({ data: { homework } }: { data: any }) {
       <Header title="Homework"></Header>
       <FlatList
         data={homework}
+        contentContainerStyle={{
+          paddingTop: Constraints.Margin,
+          gap: Constraints.Margin / 2,
+        }}
         renderItem={({
           item: { subject, timeRequired, dueDate },
         }: {

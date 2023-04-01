@@ -6,7 +6,6 @@ import { EditsIcon } from "../../assets/Icons";
 import { timeIntegerToString } from "../Functions";
 
 import Header from "../components/Header";
-import * as Storage from "../Storage";
 
 export default function Schedule({ data: { tasks } }: { data: any }) {
   const TaskBlock = ({
@@ -107,7 +106,6 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
           <Text style={styles.endTime}>{timeIntegerToString(end)}</Text>
         </View>
         <View style={styles.taskContainer}>
-          <View style={styles.taskDivider} />
           <View style={[styles.taskCard, { height: cardHeight }]}>
             <View style={styles.nameContainer}>
               <Text style={styles.name}>{subject}</Text>
@@ -121,7 +119,6 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
               <EditsIcon color={Colors.dark} />
             </View>
           </View>
-          <View style={styles.taskDivider} />
         </View>
       </View>
     );

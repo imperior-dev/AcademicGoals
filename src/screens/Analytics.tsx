@@ -5,7 +5,7 @@ import { Constraints, Style } from "../../assets/Global";
 import Header from "../components/Header";
 import { Type } from "../Storage";
 
-export default function Analytics({ data }: { data: Type }) {
+export default function Analytics({ data }: any) {
   const Leaderboard = () => {
     const leaderboardList = [
       ...data.leaderboard,
@@ -33,13 +33,18 @@ export default function Analytics({ data }: { data: Type }) {
                   flexDirection: "row",
                   padding: Constraints.Margin / 2,
                   borderRadius: Constraints.BorderRadius / 2,
+                  alignItems: "center",
                   borderWidth: 2,
                   borderColor: Colors.dark,
                 }}
               >
-                <Text style={{ flex: 1 }}>{rankCounter}</Text>
-                <Text style={{ flex: 5 }}>{name}</Text>
-                <Text style={{ flex: 0 }}>{exp}</Text>
+                <Text style={[{ flex: 1 }, Style.text]}>
+                  {"#" + rankCounter}
+                </Text>
+                <Text style={[Style.text, { flex: 5 }]}>{name}</Text>
+                <Text style={[Style.text, { flex: 0, fontSize: 14 }]}>
+                  {exp + " Exp"}
+                </Text>
               </View>
             );
           }}
@@ -107,22 +112,30 @@ export default function Analytics({ data }: { data: Type }) {
       <View style={{ gap: Constraints.Margin / 2 }}>
         <View style={styles.row}>
           <View style={styles.block}>
-            <Text style={styles.text}>Subjects Completed</Text>
-            <Text style={styles.value}>{status.subject.completed}</Text>
+            <Text style={[Style.text, styles.text]}>Subjects Completed</Text>
+            <Text style={[Style.text, styles.value]}>
+              {status.subject.completed}
+            </Text>
           </View>
           <View style={styles.block}>
-            <Text style={styles.text}>Subjects Left</Text>
-            <Text style={styles.value}>{status.subject.left}</Text>
+            <Text style={[Style.text, styles.text]}>Subjects Left</Text>
+            <Text style={[Style.text, styles.value]}>
+              {status.subject.left}
+            </Text>
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.block}>
-            <Text style={styles.text}>Homeworks Completed</Text>
-            <Text style={styles.value}>{status.homework.completed}</Text>
+            <Text style={[Style.text, styles.text]}>Homeworks Completed</Text>
+            <Text style={[Style.text, styles.value]}>
+              {status.homework.completed}
+            </Text>
           </View>
           <View style={styles.block}>
-            <Text style={styles.text}>Homeworks Left</Text>
-            <Text style={styles.value}>{status.homework.left}</Text>
+            <Text style={[Style.text, styles.text]}>Homeworks Left</Text>
+            <Text style={[Style.text, styles.value]}>
+              {status.homework.left}
+            </Text>
           </View>
         </View>
       </View>
@@ -135,10 +148,10 @@ export default function Analytics({ data }: { data: Type }) {
         margin: 10,
         marginBottom: 0,
         flex: 1,
-        borderTopWidth: 2,
+        borderWidth: 2,
         height: 5,
-        borderColor: Colors.dark,
         borderRadius: Constraints.BorderRadius,
+        borderColor: Colors.black,
       },
       text: {
         flex: 1,
