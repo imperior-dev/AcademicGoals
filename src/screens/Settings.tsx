@@ -14,25 +14,53 @@ import { timeIntegerToString } from "../Functions";
 import * as Storage from "../Storage";
 
 export default function Settings({
-  data: { preferences, user, stats },
+  storage,
   AskInput,
 }: {
-  data: any;
+  storage: any;
   AskInput: Function;
 }) {
   const ProfileCard = () => {
     return (
       <TouchableOpacity
         onPress={() => {
+          let name = storage.data.user.name;
           AskInput({
             Element: () => {
-              let name = user.name;
               return (
-                <View style={{ flex: 1 }}>
-                  <Text style={Style.heading}>Your Name</Text>
+                <View style={{ flex: 1, padding: Constraints.Margin }}>
+                  <Text
+                    style={[
+                      Style.heading,
+                      {
+                        marginTop: 0,
+                        marginBottom: 10,
+                        textAlign: "center",
+                        fontSize: 22,
+                      },
+                    ]}
+                  >
+                    Profile
+                  </Text>
+                  <Text
+                    style={[Style.text, { marginTop: 0, marginBottom: 10 }]}
+                  >
+                    What's your name ?
+                  </Text>
                   <TextInput
-                    style={Style.text}
+                    style={[
+                      Style.text,
+                      {
+                        borderRadius: Constraints.BorderRadius / 4,
+                        borderWidth: 1,
+                        borderColor: Colors.grey,
+                        padding: Constraints.Margin / 3,
+                        paddingLeft: Constraints.Margin / 2,
+                        paddingRight: Constraints.Margin / 2,
+                      },
+                    ]}
                     maxLength={20}
+                    defaultValue={name}
                     onChangeText={(value) => (name = value)}
                   />
                   <View></View>
@@ -42,6 +70,8 @@ export default function Settings({
             submit: {
               text: "Submit",
               function: () => {
+                storage.data.user.name = name;
+                storage.update();
                 console.log("Submited!");
                 return true;
               },
@@ -71,7 +101,7 @@ export default function Settings({
               flex: 1,
             }}
           >
-            {user.name}
+            {storage.data.user.name}
           </Text>
           <Text
             style={[
@@ -79,7 +109,7 @@ export default function Settings({
               { width: 70, fontSize: 14, textAlign: "right" },
             ]}
           >
-            {stats[stats.length - 1].exp + " Exp"}
+            {storage.data.stats[storage.data.stats.length - 1].exp + " Exp"}
           </Text>
         </View>
       </TouchableOpacity>
@@ -120,7 +150,7 @@ export default function Settings({
         }}
       >
         <FlatList
-          data={preferences.studySlots}
+          data={storage.data.preferences.studySlots}
           renderItem={({
             item: { from, to },
           }: {
@@ -144,11 +174,17 @@ export default function Settings({
       >
         <Text style={Style.text}>A break for</Text>
         <Text style={Style.text}>
-          {timeIntegerToString(preferences.breakSetting.time, true)}
+          {timeIntegerToString(
+            storage.data.preferences.breakSetting.time,
+            true
+          )}
         </Text>
         <Text style={Style.text}>every</Text>
         <Text style={Style.text}>
-          {timeIntegerToString(preferences.breakSetting.interval, true)}
+          {timeIntegerToString(
+            storage.data.preferences.breakSetting.interval,
+            true
+          )}
         </Text>
       </View>
     );
@@ -191,7 +227,7 @@ export default function Settings({
         }}
       >
         <FlatList
-          data={preferences.subjects}
+          data={storage.data.preferences.subjects}
           renderItem={({ item: { name, importance } }) => (
             <Slot
               name={name}

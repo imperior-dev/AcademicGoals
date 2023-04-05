@@ -46,15 +46,8 @@ export default function Input({
         <View style={{ flex: 1 }}>{<Element />}</View>
         <View
           style={{
-            height: 2,
-            marginBottom: 2,
-            backgroundColor: Colors.blue,
-          }}
-        />
-        <View
-          style={{
             height: 48,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.orange,
             flexDirection: "row",
             justifyContent: "space-evenly",
             alignItems: "center",

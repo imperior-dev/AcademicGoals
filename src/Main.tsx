@@ -56,7 +56,7 @@ export default function Main({ storage }: { storage: Storage.New }) {
           homework: <Homework data={storage.data} />,
           home: <Home data={storage.data} />,
           calendar: <Schedule data={storage.data} />,
-          settings: <Settings data={storage.data} AskInput={setInput} />,
+          settings: <Settings storage={storage} AskInput={setInput} />,
         }[page]
       }
     </View>
