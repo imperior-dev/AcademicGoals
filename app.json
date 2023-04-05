@@ -11,33 +11,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "me.imperior.AcademicGoals"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/app/icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "me.imperior.AcademicGoals"
-    },
-    "web": {
-      "favicon": "./assets/app/icon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "0a96b85c-cbdb-4762-91aa-02b04def31b9"
       }
-    },
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/0a96b85c-cbdb-4762-91aa-02b04def31b9"
     }
   }
 }
