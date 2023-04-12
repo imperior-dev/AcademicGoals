@@ -154,7 +154,6 @@ class New {
   }
   update() {
     if (this.data == undefined) return false;
-    console.log(this.data);
     FileSystem.writeAsStringAsync(
       this.fileUri,
       JSON.stringify(this.data, null, 4)

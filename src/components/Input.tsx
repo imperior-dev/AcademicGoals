@@ -35,15 +35,13 @@ export default function Input({
       <TouchableOpacity style={Style.absoluteFlex} onPress={() => Cancel()} />
       <View
         style={{
-          flex: 1,
           width: "100%",
-          aspectRatio: 12 / 9,
           backgroundColor: "white",
           borderRadius: Constraints.BorderRadius,
           overflow: "hidden",
         }}
       >
-        <View style={{ flex: 1 }}>{<Element />}</View>
+        <View style={{ width: "100%", minHeight: "20%" }}>{<Element />}</View>
         <View
           style={{
             height: 48,

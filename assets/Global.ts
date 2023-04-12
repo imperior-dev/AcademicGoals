@@ -27,6 +27,30 @@ const Style = StyleSheet.create({
     fontWeight: "900",
     color: "black",
   },
+  labelText: {
+    fontFamily: "Sora",
+    fontSize: 14,
+    fontWeight: "900",
+    color: "black",
+  },
+  input: {
+    padding: Constraints.Margin / 3,
+    paddingLeft: Constraints.Margin / 2,
+    paddingRight: Constraints.Margin / 2,
+  },
+  inputContainer: {
+    borderWidth: 1,
+    borderColor: Colors.grey,
+    borderRadius: Constraints.BorderRadius / 4,
+  },
+  inputText: {
+    fontFamily: "Sora",
+    fontSize: 16,
+    fontWeight: "900",
+    color: "black",
+    marginTop: 10,
+    marginBottom: 10,
+  },
 });
 
 export { Constraints, Style };

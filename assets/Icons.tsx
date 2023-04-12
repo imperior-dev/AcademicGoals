@@ -36,6 +36,10 @@ export function SettingsIcon(props: any) {
   );
 }
 
+export function AddIcon(props: any) {
+  return <Ionicons name="add" size={IconSize} color={props.color}></Ionicons>;
+}
+
 export function EditsIcon(props: any) {
   return (
     <MaterialIcons
