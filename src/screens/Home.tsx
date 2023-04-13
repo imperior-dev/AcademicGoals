@@ -2,11 +2,10 @@ import { View, Text, StyleSheet } from "react-native";
 
 import Colors from "../../assets/Colors";
 import { Constraints, Style } from "../../assets/Global";
+import Core from "../Core";
 
-import * as Storage from "../Storage";
-
-export default function Home({ data }: { data: any }) {
-  const { subjects, homework } = data.stats[data.stats.length - 1];
+export default function Home({ core }: { core: Core }) {
+  const { subjects, homework } = core.data.stats[core.data.stats.length - 1];
 
   const tasks = [...subjects, ...homework];
 
@@ -29,78 +28,19 @@ export default function Home({ data }: { data: any }) {
   })();
 
   return (
-    <View
-      style={{
-        padding: 20,
-        paddingTop: 10,
-      }}
-    >
-      <View
-        style={{
-          width: 50,
-          height: 4,
-          borderRadius: 2,
-          alignSelf: "center",
-          backgroundColor: Colors.blue,
-          marginBottom: 10,
-        }}
-      />
-      <Text style={Style.heading}>Today's Progress</Text>
-      <View
-        style={{
-          height: 16,
-          overflow: "hidden",
-          flexDirection: "row",
-          borderRadius: 32,
-        }}
-      >
-        <View
-          style={{
-            width: progressBarWidth,
-            backgroundColor: Colors.pink,
-          }}
-        />
-        <View
-          style={{
-            flex: 1,
-            borderWidth: 2,
-            borderLeftWidth: 0,
-            borderColor: Colors.dark,
-            borderTopRightRadius: 32,
-            borderBottomRightRadius: 32,
-          }}
-        ></View>
+    <View style={styles.container}>
+      <View style={styles.progressContainer}>
+        <View style={[styles.progressBar, { width: progressBarWidth }]} />
+        <View style={styles.borderContainer} />
       </View>
-      <Text style={Style.heading}>Current Task</Text>
-      <View
-        style={{
-          backgroundColor: Colors.blue,
-          aspectRatio: 5 / 2,
-          borderRadius: Constraints.BorderRadius / 2,
-        }}
-      >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            paddingLeft: Constraints.Margin * 2,
-          }}
-        >
+      <Text style={Style.heading}>Today's Progress</Text>
+      <View style={styles.taskContainer}>
+        <View style={styles.taskTextContainer}>
           <View>
-            <Text
-              style={[
-                Style.heading,
-                {
-                  color: Colors.white,
-                  fontSize: 26,
-                  marginBottom: 0,
-                  marginTop: 0,
-                },
-              ]}
-            >
+            <Text style={[styles.taskHeading, { color: Colors.white }]}>
               English
             </Text>
-            <Text style={[Style.text, { color: Colors.white, fontSize: 14 }]}>
+            <Text style={[styles.taskText, { color: Colors.white }]}>
               25 Minutes Remaining
             </Text>
           </View>
@@ -112,8 +52,52 @@ export default function Home({ data }: { data: any }) {
             opacity: 0.5,
             width: "50%",
           }}
-        ></View>
+        />
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    paddingTop: 10,
+  },
+  progressContainer: {
+    height: 16,
+    overflow: "hidden",
+    flexDirection: "row",
+    borderRadius: 32,
+  },
+  progressBar: {
+    backgroundColor: Colors.pink,
+  },
+  borderContainer: {
+    flex: 1,
+    borderWidth: 2,
+    borderLeftWidth: 0,
+    borderColor: Colors.dark,
+    borderTopRightRadius: 32,
+    borderBottomRightRadius: 32,
+  },
+  taskContainer: {
+    backgroundColor: Colors.blue,
+    aspectRatio: 5 / 2,
+    borderRadius: Constraints.BorderRadius / 2,
+  },
+  taskTextContainer: {
+    flex: 1,
+    justifyContent: "center",
+    paddingLeft: Constraints.Margin * 2,
+  },
+  taskHeading: {
+    color: Colors.white,
+    fontSize: 26,
+    marginBottom: 0,
+    marginTop: 0,
+  },
+  taskText: {
+    color: Colors.white,
+    fontSize: 14,
+  },
+});

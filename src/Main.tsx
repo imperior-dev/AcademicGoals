@@ -1,14 +1,5 @@
-import {
-  Image,
-  View,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  GestureResponderEvent,
-} from "react-native";
-import { useState } from "react";
-
-import * as Storage from "./Storage";
+import { Image, View, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
 
 import { Constraints, Style } from "../assets/Global";
 import Colors from "../assets/Colors";
@@ -23,67 +14,65 @@ import {
 } from "./screens/Screens";
 
 import Navbar from "./components/Navbar";
-import Input from "./components/Input";
+import Core from "./Core";
+import { pageType, screenType } from "./types/core";
 
-export default function Main({ storage }: { storage: Storage.New }) {
-  StatusBar.setBarStyle("light-content");
+export default function Main({ core }: { core: Core }) {
+  const [screen, setScreen] = useState<screenType>(core.screen);
+  const [page, setPage] = useState<pageType>(core.page);
 
-  const [page, setPage] = useState("home");
-  const [input, setInput] = useState<null | {
-    Element: Function;
-    submit: {
-      text: string;
-      function: () => boolean;
-    };
-  }>(null);
+  useEffect(() => {
+    core.attachScreenHook(setScreen);
+    core.attachPageHook(setPage);
+  });
 
-  if (storage.data == undefined) return null;
-
-  const Body = () => (
-    <View
-      style={[
-        {
-          borderTopLeftRadius: Constraints.BorderRadius,
-          borderTopRightRadius: Constraints.BorderRadius,
-          backgroundColor: Colors.white,
-        },
-        page !== "home" ? { borderRadius: 0, flex: 1 } : {},
-      ]}
-    >
-      {
-        {
-          analytics: <Analytics data={storage.data} />,
-          homework: <Homework data={storage.data} />,
-          home: <Home data={storage.data} />,
-          calendar: <Schedule data={storage.data} />,
-          settings: <Settings storage={storage} AskInput={setInput} />,
-        }[page]
-      }
-    </View>
-  );
+  const PageElement = {
+    home: Home,
+    setting: Settings,
+    homework: Homework,
+    analytics: Analytics,
+    schedule: Schedule,
+  }[page];
 
   return (
-    <View
-      style={{
-        flex: 1,
-        position: "relative",
-        backgroundColor: Colors.grey,
-      }}
-    >
+    <View style={styles.container}>
       <View style={Style.absoluteFlex}>
         <Image style={{ flex: 1 }} source={Images.background}></Image>
       </View>
       <View style={[Style.absoluteFlex, { justifyContent: "flex-end" }]}>
-        <Body />
-        <Navbar page={page} setPage={setPage}></Navbar>
+        <View
+          style={[
+            styles.pageContainer,
+            ,
+            screen == "home" || screen == "setup"
+              ? null
+              : { borderRadius: 0, flex: 1 },
+          ]}
+        >
+          <PageElement core={core} />
+        </View>
+        {screen !== "setup" ? <Navbar core={core}></Navbar> : null}
       </View>
-      {input ? (
+      {/* {input ? (
         <Input
           Element={input.Element}
           submit={input.submit}
           Cancel={() => setInput(null)}
         />
-      ) : undefined}
+      ) : undefined} */}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "relative",
+    backgroundColor: Colors.grey,
+  },
+  pageContainer: {
+    borderTopLeftRadius: Constraints.BorderRadius,
+    borderTopRightRadius: Constraints.BorderRadius,
+    backgroundColor: Colors.white,
+  },
+});

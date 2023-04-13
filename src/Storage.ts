@@ -1,5 +1,3 @@
-import * as FileSystem from "expo-file-system";
-
 const templateData: Type = {
   user: {
     name: "Aoi",

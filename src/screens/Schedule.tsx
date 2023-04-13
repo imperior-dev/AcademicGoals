@@ -6,8 +6,9 @@ import { EditsIcon } from "../../assets/Icons";
 import { timeIntegerToString } from "../Functions";
 
 import Header from "../components/Header";
+import Core from "../Core";
 
-export default function Schedule({ data: { tasks } }: { data: any }) {
+export default function Schedule({ core }: { core: Core }) {
   const TaskBlock = ({
     start,
     end,
@@ -146,7 +147,7 @@ export default function Schedule({ data: { tasks } }: { data: any }) {
         ></View>
         <View style={{ maxHeight: "100%" }}>
           <FlatList
-            data={tasks}
+            data={core.data.tasks}
             renderItem={({ item: { start, end, subject } }) => (
               <TaskBlock start={start} end={end} subject={subject} />
             )}

@@ -3,13 +3,16 @@ import Colors from "../../assets/Colors";
 import { Constraints, Style } from "../../assets/Global";
 
 import Header from "../components/Header";
-import { Type } from "../Storage";
+import Core from "../Core";
 
-export default function Analytics({ data }: any) {
+export default function Analytics({ core }: { core: Core }) {
   const Leaderboard = () => {
     const leaderboardList = [
-      ...data.leaderboard,
-      { name: data.user.name, exp: data.stats[data.stats.length - 1].exp },
+      ...core.data.leaderboard,
+      {
+        name: core.data.user.name,
+        exp: core.data.stats[core.data.stats.length - 1].exp,
+      },
     ];
 
     leaderboardList.sort((a, b) => {
@@ -54,7 +57,7 @@ export default function Analytics({ data }: any) {
   };
 
   const TodaysReport = () => {
-    const { subjects, homework } = data.stats[data.stats.length - 1];
+    const { subjects, homework } = core.data.stats[core.data.stats.length - 1];
 
     const status = {
       subject: {
@@ -160,7 +163,7 @@ export default function Analytics({ data }: any) {
       },
     });
 
-    const date = new Date(data.stats[data.stats.length - 1].date);
+    const date = new Date(core.data.stats[core.data.stats.length - 1].date);
 
     return (
       <View

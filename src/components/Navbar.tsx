@@ -3,10 +3,7 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
-  FlatList,
 } from "react-native";
-
-import Colors from "../../assets/Colors";
 
 import {
   AnalyticsIcon,
@@ -15,69 +12,55 @@ import {
   HomeworkIcon,
   SettingsIcon,
 } from "../../assets/Icons";
-
+import Colors from "../../assets/Colors";
 import Images from "../../assets/Images";
+
+import Core from "../Core";
+import { pageType } from "../types/core";
 
 const IconColor = "white";
 const IconFadeOpacity = 0.7;
 
-export default function Navbar({
-  page,
-  setPage,
-}: {
-  page: string;
-  setPage: Function;
-}) {
+export default function Navbar({ core }: { core: Core }) {
+  const icons: { [key: string]: Function } = {
+    analytics: AnalyticsIcon,
+    homework: HomeworkIcon,
+    home: HomeIcon,
+    schedule: CalendarIcon,
+    setting: SettingsIcon,
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.line}></View>
+
       <ImageBackground source={Images.navbar}>
         <View style={styles.body}>
           <View style={styles.backgroundOverlay}></View>
-          <FlatList
-            contentContainerStyle={styles.list}
-            data={["analytics", "homework", "home", "calendar", "settings"]}
-            numColumns={5}
-            renderItem={({ item: name }) => (
-              <IconContainer name={name} page={page} setPage={setPage} />
-            )}
-            keyExtractor={(name) => name}
-          />
+          <View style={styles.list}>
+            {Object.keys(icons).map((iconName) => {
+              const Icon = icons[iconName];
+              return (
+                <TouchableOpacity
+                  key={iconName}
+                  style={[
+                    styles.iconContainer,
+                    {
+                      opacity: iconName == core.page ? IconFadeOpacity : 1,
+                    },
+                  ]}
+                  onPress={() => {
+                    core.navigateTo(iconName as pageType);
+                  }}
+                >
+                  <Icon color={IconColor} />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </View>
       </ImageBackground>
     </View>
-  );
-}
-
-function IconContainer({
-  name,
-  page,
-  setPage,
-}: {
-  name: string;
-  page: string;
-  setPage: Function;
-}) {
-  return (
-    <TouchableOpacity
-      style={[
-        styles.iconContainer,
-        { opacity: page == name ? IconFadeOpacity : 1 },
-      ]}
-      onPress={() => {
-        setPage(name);
-      }}
-    >
-      {
-        {
-          analytics: <AnalyticsIcon color={IconColor} />,
-          homework: <HomeworkIcon color={IconColor} />,
-          home: <HomeIcon color={IconColor} />,
-          calendar: <CalendarIcon color={IconColor} />,
-          settings: <SettingsIcon color={IconColor} />,
-        }[name]
-      }
-    </TouchableOpacity>
   );
 }
 
@@ -105,7 +88,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    justifyContent: "center",
+    flexDirection: "row",
   },
   iconContainer: {
     flex: 1,

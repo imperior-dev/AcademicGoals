@@ -5,8 +5,9 @@ import Header from "../components/Header";
 import { Constraints, Style } from "../../assets/Global";
 import Colors from "../../assets/Colors";
 import * as Storage from "../Storage";
+import Core from "../Core";
 
-export default function Homework({ data: { homework } }: { data: any }) {
+export default function Homework({ core }: { core: Core }) {
   const HomeworkCard = ({ subject, timeRequired, dueDate }: any) => {
     const dateObject = new Date(dueDate);
     const dateString = dateObject.getDate() + "/" + (dateObject.getMonth() + 1);
@@ -72,7 +73,7 @@ export default function Homework({ data: { homework } }: { data: any }) {
     <View>
       <Header title="Homework"></Header>
       <FlatList
-        data={homework}
+        data={core.data.homework}
         contentContainerStyle={{
           paddingTop: Constraints.Margin,
           gap: Constraints.Margin / 2,

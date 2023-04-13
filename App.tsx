@@ -1,34 +1,23 @@
-import { useCallback } from "react";
 import { View } from "react-native";
-
-import * as SplashScreen from "expo-splash-screen";
-import { useFonts } from "expo-font";
+import { useEffect, useState } from "react";
 
 import Main from "./src/Main";
+import Core from "./src/Core";
 
-import * as Storage from "./src/Storage";
-const storage = new Storage.New();
+import { statusType } from "./src/types/core";
 
-SplashScreen.preventAutoHideAsync();
+const core = new Core();
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    Sora: require("./assets/fonts/Sora.ttf"),
+  const [status, setStatus] = useState<statusType>("loading");
+
+  useEffect(() => {
+    core.startLoad(setStatus);
   });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded && storage.data !== undefined) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded, storage.data]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
+  //If core is loaded add the Main Element
   return (
-    <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-      <Main storage={storage} />
+    <View style={{ flex: 1 }}>
+      {status == "loaded" ? <Main core={core} /> : null}
     </View>
   );
 }
