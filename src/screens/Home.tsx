@@ -29,11 +29,13 @@ export default function Home({ core }: { core: Core }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.topLine} />
+      <Text style={Style.heading}>Today's Progress</Text>
       <View style={styles.progressContainer}>
         <View style={[styles.progressBar, { width: progressBarWidth }]} />
         <View style={styles.borderContainer} />
       </View>
-      <Text style={Style.heading}>Today's Progress</Text>
+      <Text style={Style.heading}>Current Task</Text>
       <View style={styles.taskContainer}>
         <View style={styles.taskTextContainer}>
           <View>
@@ -99,5 +101,12 @@ const styles = StyleSheet.create({
   taskText: {
     color: Colors.white,
     fontSize: 14,
+  },
+  topLine: {
+    height: 2,
+    width: 64,
+    marginTop: 10,
+    backgroundColor: Colors.dark,
+    alignSelf: "center",
   },
 });
