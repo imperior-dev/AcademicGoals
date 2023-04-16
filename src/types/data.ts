@@ -1,9 +1,9 @@
 type dataType = {
   user: {
     name: string;
-    password: string; //TODO
-    id: number; //TODO
-    token: number; //TODO
+    password: string;
+    id: number;
+    token: number;
   };
   preferences: {
     breakSetting: {

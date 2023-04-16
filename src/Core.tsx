@@ -4,7 +4,7 @@ import * as Font from "expo-font";
 import { StatusBar } from "react-native";
 
 import dataType from "./types/data";
-import { pageType, screenType, statusType } from "./types/core";
+import { inputType, pageType, screenType, statusType } from "./types/core";
 
 const devDataTemplate: dataType = {
   user: {
@@ -94,16 +94,18 @@ export default class Core {
   public status: statusType;
   public screen: screenType;
   public page: pageType;
+  public inputType: inputType;
   private setScreen?: React.Dispatch<React.SetStateAction<screenType>>;
   private setPage?: React.Dispatch<React.SetStateAction<pageType>>;
 
   constructor() {
-    this.log("Core Generated!");
+    this.log("[Info] Core Generated!");
     this.data = {} as dataType;
 
     this.status = "loading";
     this.screen = "home";
     this.page = "home";
+    this.inputType = "profile";
 
     SplashScreen.preventAutoHideAsync();
     StatusBar.setBarStyle("light-content");
@@ -130,6 +132,34 @@ export default class Core {
 
   attachPageHook(hook: React.Dispatch<React.SetStateAction<pageType>>) {
     this.setPage = hook;
+  }
+
+  requestInput(type: inputType) {
+    if (this.setScreen) {
+      this.log("[Info] Requesting Input");
+      this.inputType = type;
+      this.setScreen("input");
+    }
+  }
+
+  cancelInput() {
+    if (this.setScreen) {
+      this.log("[Info] Canceling Input");
+      this.setScreen(this.page == "home" ? "home" : "other");
+    }
+  }
+
+  async updateDate() {
+    try {
+      await FileSystem.writeAsStringAsync(
+        fileURI,
+        JSON.stringify(this.data, null, 4)
+      );
+      return true;
+    } catch (error) {
+      this.log("[Error] Updating data.", error);
+      return false;
+    }
   }
 
   async startLoad(setStatus: React.Dispatch<React.SetStateAction<statusType>>) {

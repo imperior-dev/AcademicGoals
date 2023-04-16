@@ -1,4 +1,4 @@
-import { Image, View, StyleSheet } from "react-native";
+import { Image, View, StyleSheet, StatusBar } from "react-native";
 import { useEffect, useState } from "react";
 
 import { Constraints, Style } from "../assets/Global";
@@ -14,6 +14,7 @@ import {
 } from "./screens/Screens";
 
 import Navbar from "./components/Navbar";
+import Input from "./components/Input";
 import Core from "./Core";
 import { pageType, screenType } from "./types/core";
 
@@ -53,13 +54,10 @@ export default function Main({ core }: { core: Core }) {
         </View>
         {screen !== "setup" ? <Navbar core={core}></Navbar> : null}
       </View>
-      {/* {input ? (
-        <Input
-          Element={input.Element}
-          submit={input.submit}
-          Cancel={() => setInput(null)}
-        />
-      ) : undefined} */}
+
+      {screen == "input" ? (
+        <Input type={core.inputType} core={core} />
+      ) : undefined}
     </View>
   );
 }

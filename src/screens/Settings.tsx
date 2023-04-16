@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import Slider from "@react-native-community/slider";
 
 import Header from "../components/Header";
 
@@ -13,7 +12,6 @@ import { Constraints, Style } from "../../assets/Global";
 import Colors from "../../assets/Colors";
 
 import { timeIntegerToString } from "../Functions";
-import * as Storage from "../Storage";
 import Core from "../Core";
 
 export default function Settings({ core }: { core: Core }) {
@@ -44,7 +42,7 @@ function ProfileCard({ core }: { core: Core }) {
   return (
     <TouchableOpacity
       onPress={() => {
-        //TODO Edit Profile
+        core.requestInput("profile");
       }}
     >
       <View style={profileStyles.profileContainer}>

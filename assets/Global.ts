@@ -38,11 +38,6 @@ const Style = StyleSheet.create({
     paddingLeft: Constraints.Margin / 2,
     paddingRight: Constraints.Margin / 2,
   },
-  inputContainer: {
-    borderWidth: 1,
-    borderColor: Colors.grey,
-    borderRadius: Constraints.BorderRadius / 4,
-  },
   inputText: {
     fontFamily: "Sora",
     fontSize: 16,
