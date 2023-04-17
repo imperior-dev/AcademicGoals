@@ -6,4 +6,6 @@ type screenType = "home" | "setup" | "input" | "other";
 
 type inputType = "profile" | "studySlot" | "break" | "subject";
 
-export { statusType, pageType, screenType, inputType };
+type dayType = "mon" | "tue" | "wed" | "thus" | "fri" | "sat" | "sun";
+
+export { statusType, pageType, screenType, inputType, dayType };

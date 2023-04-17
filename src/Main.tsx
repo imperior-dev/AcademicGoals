@@ -55,9 +55,7 @@ export default function Main({ core }: { core: Core }) {
         {screen !== "setup" ? <Navbar core={core}></Navbar> : null}
       </View>
 
-      {screen == "input" ? (
-        <Input type={core.inputType} core={core} />
-      ) : undefined}
+      {screen == "input" ? <Input core={core} /> : undefined}
     </View>
   );
 }

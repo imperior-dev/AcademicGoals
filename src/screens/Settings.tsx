@@ -13,8 +13,20 @@ import Colors from "../../assets/Colors";
 
 import { timeIntegerToString } from "../Functions";
 import Core from "../Core";
+import { useState } from "react";
+import { dayType } from "../types/core";
 
 export default function Settings({ core }: { core: Core }) {
+  const [day, setDay] = useState<dayType>("mon");
+  const daysMap: { [key: string]: dayType } = {
+    Mon: "mon",
+    Tue: "tue",
+    Wed: "wed",
+    Thus: "thus",
+    Fri: "fri",
+    Sat: "sat",
+    Sun: "sun",
+  };
   return (
     <View style={{ flex: 1 }}>
       <Header title="Settings"></Header>
@@ -27,8 +39,44 @@ export default function Settings({ core }: { core: Core }) {
       >
         <Text style={Style.heading}>Profile</Text>
         <ProfileCard core={core} />
-        <Text style={Style.heading}>Study Slots</Text>
-        <StudySlotsCard core={core} />
+        <View style={{ flexDirection: "row" }}>
+          <Text style={Style.heading}>Study Slots</Text>
+          <View
+            style={[
+              {
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "flex-end",
+                justifyContent: "space-evenly",
+                marginTop: 10,
+                marginBottom: 8,
+              },
+            ]}
+          >
+            {Object.keys(daysMap).map((dayName) => {
+              return (
+                <TouchableOpacity
+                  key={dayName}
+                  onPress={() => setDay(daysMap[dayName])}
+                >
+                  <Text
+                    style={[
+                      Style.labelText,
+                      {
+                        fontSize: daysMap[dayName] !== day ? 12 : undefined,
+                        textDecorationLine:
+                          daysMap[dayName] == day ? "underline" : undefined,
+                      },
+                    ]}
+                  >
+                    {dayName}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+        <StudySlotsCard core={core} day={day} />
         <Text style={Style.heading}>Break Settings</Text>
         <BreakCard core={core} />
         <Text style={Style.heading}>Subjects</Text>
@@ -81,10 +129,23 @@ const profileStyles = StyleSheet.create({
   },
 });
 
-function StudySlotsCard({ core }: { core: Core }) {
-  const StudySlot = ({ from, to }: { from: number; to: number }) => {
+function StudySlotsCard({ core, day }: { core: Core; day: dayType }) {
+  const StudySlot = ({
+    from,
+    to,
+    index,
+  }: {
+    from: number;
+    to: number;
+    index: number;
+  }) => {
     return (
-      <View style={studySlotsCardStyles.studySlotContainer}>
+      <TouchableOpacity
+        style={studySlotsCardStyles.studySlotContainer}
+        onPress={function () {
+          core.requestInput("studySlot", { index, day });
+        }}
+      >
         <Text style={[studySlotsCardStyles.labelText, Style.labelText]}>
           From
         </Text>
@@ -94,17 +155,24 @@ function StudySlotsCard({ core }: { core: Core }) {
         <View style={{ flex: 1 }}></View>
         <Text style={[{ flex: 2 }, Style.labelText]}>To</Text>
         <Text style={[{ flex: 0 }, Style.text]}>{timeIntegerToString(to)}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   return (
     <View style={studySlotsCardStyles.studySlotsCardContainer}>
       <FlatList
-        data={core.data.preferences.studySlots}
-        renderItem={({ item }: { item: { from: number; to: number } }) => (
-          <StudySlot from={item.from} to={item.to} />
-        )}
+        data={core.data.preferences.studySlots[day]}
+        renderItem={({
+          item,
+          index,
+        }: {
+          item: { from: number; to: number };
+          index: number;
+        }) => {
+          index++;
+          return <StudySlot from={item.from} to={item.to} index={index - 1} />;
+        }}
       />
     </View>
   );
@@ -138,6 +206,7 @@ function BreakCard({ core }: { core: Core }) {
     <TouchableOpacity
       style={breakCardStyles.breakCardContainer}
       onPress={() => {
+        core.requestInput("break");
         //TODO Edit breaks
       }}
     >
@@ -166,12 +235,18 @@ const breakCardStyles = StyleSheet.create({
 });
 
 function SubjectsCard({ core }: { core: Core }) {
-  const Slot = ({ index }: { index: number }) => {
-    let { name, importance } = core.data.preferences.subjects[index];
+  const Slot = ({
+    index,
+    subject,
+  }: {
+    index: number;
+    subject: { name: string; importance: number };
+  }) => {
+    let { name, importance } = subject;
     return (
       <TouchableOpacity
         onPress={() => {
-          //TODO Edit Subject
+          core.requestInput("subject", { index });
         }}
         style={subjectsCardStyles.subjectSlotContainer}
       >
@@ -190,8 +265,10 @@ function SubjectsCard({ core }: { core: Core }) {
   return (
     <View style={subjectsCardStyles.subjectsCardContainer}>
       <FlatList
-        data={[...Array(core.data.preferences.subjects.length).keys()]}
-        renderItem={({ item: index }) => <Slot index={index} />}
+        data={core.data.preferences.subjects}
+        renderItem={({ item: subject, index }) => (
+          <Slot index={index} subject={subject} />
+        )}
       />
     </View>
   );

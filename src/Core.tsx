@@ -4,7 +4,13 @@ import * as Font from "expo-font";
 import { StatusBar } from "react-native";
 
 import dataType from "./types/data";
-import { inputType, pageType, screenType, statusType } from "./types/core";
+import {
+  dayType,
+  inputType,
+  pageType,
+  screenType,
+  statusType,
+} from "./types/core";
 
 const devDataTemplate: dataType = {
   user: {
@@ -18,16 +24,78 @@ const devDataTemplate: dataType = {
       time: 45, //In custom time format
       interval: 120, //In custom time format
     },
-    studySlots: [
-      {
-        from: 120, //In custom time format
-        to: 360, //In custom time format
-      },
-      {
-        from: 720, //In custom time format
-        to: 840, //In custom time format
-      },
-    ],
+    studySlots: {
+      mon: [
+        {
+          from: 120, //In custom time format
+          to: 360, //In custom time format
+        },
+        {
+          from: 720, //In custom time format
+          to: 840, //In custom time format
+        },
+      ],
+      tue: [
+        {
+          from: 120, //In custom time format
+          to: 360, //In custom time format
+        },
+        {
+          from: 720, //In custom time format
+          to: 840, //In custom time format
+        },
+      ],
+      wed: [
+        {
+          from: 120, //In custom time format
+          to: 360, //In custom time format
+        },
+        {
+          from: 720, //In custom time format
+          to: 840, //In custom time format
+        },
+      ],
+      thus: [
+        {
+          from: 120, //In custom time format
+          to: 360, //In custom time format
+        },
+        {
+          from: 720, //In custom time format
+          to: 840, //In custom time format
+        },
+      ],
+      fri: [
+        {
+          from: 120, //In custom time format
+          to: 360, //In custom time format
+        },
+        {
+          from: 720, //In custom time format
+          to: 840, //In custom time format
+        },
+      ],
+      sat: [
+        {
+          from: 120, //In custom time format
+          to: 360, //In custom time format
+        },
+        {
+          from: 720, //In custom time format
+          to: 840, //In custom time format
+        },
+      ],
+      sun: [
+        {
+          from: 120, //In custom time format
+          to: 360, //In custom time format
+        },
+        {
+          from: 720, //In custom time format
+          to: 840, //In custom time format
+        },
+      ],
+    },
     subjects: [
       { name: "Math", importance: 1 },
       { name: "English", importance: 0.5 },
@@ -86,6 +154,7 @@ const devDataTemplate: dataType = {
 
 const DEV_MODE = false;
 const CLEAR_DATA = false;
+const RESET_TEMPLATE = false;
 
 const fileURI = FileSystem.documentDirectory + "data.json";
 
@@ -94,7 +163,13 @@ export default class Core {
   public status: statusType;
   public screen: screenType;
   public page: pageType;
-  public inputType: inputType;
+  public input: {
+    type: inputType;
+    data: {
+      index?: number;
+      day?: dayType;
+    };
+  };
   private setScreen?: React.Dispatch<React.SetStateAction<screenType>>;
   private setPage?: React.Dispatch<React.SetStateAction<pageType>>;
 
@@ -105,7 +180,10 @@ export default class Core {
     this.status = "loading";
     this.screen = "home";
     this.page = "home";
-    this.inputType = "profile";
+    this.input = {
+      type: "profile",
+      data: {},
+    };
 
     SplashScreen.preventAutoHideAsync();
     StatusBar.setBarStyle("light-content");
@@ -134,10 +212,13 @@ export default class Core {
     this.setPage = hook;
   }
 
-  requestInput(type: inputType) {
+  requestInput(type: inputType, data?: { index?: number; day?: dayType }) {
     if (this.setScreen) {
       this.log("[Info] Requesting Input");
-      this.inputType = type;
+      this.input = {
+        type,
+        data: data || {},
+      };
       this.setScreen("input");
     }
   }
@@ -145,6 +226,7 @@ export default class Core {
   cancelInput() {
     if (this.setScreen) {
       this.log("[Info] Canceling Input");
+      this.input.data = {};
       this.setScreen(this.page == "home" ? "home" : "other");
     }
   }
@@ -178,15 +260,22 @@ export default class Core {
   async loadData(): Promise<boolean> {
     try {
       if (CLEAR_DATA) {
-        await FileSystem.writeAsStringAsync(fileURI, "");
+        await FileSystem.writeAsStringAsync(fileURI, "{}");
+      }
+
+      if (RESET_TEMPLATE) {
+        await FileSystem.writeAsStringAsync(
+          fileURI,
+          JSON.stringify(devDataTemplate, null, 4)
+        );
       }
 
       this.data = JSON.parse(await FileSystem.readAsStringAsync(fileURI));
 
       return true;
     } catch (error) {
+      this.log("[Error] Loading data.", error);
       if (!DEV_MODE) {
-        this.log("[Error] Loading data.", error);
         return false;
       }
 
@@ -194,7 +283,7 @@ export default class Core {
         fileURI,
         JSON.stringify(devDataTemplate, null, 4)
       );
-
+      // console.log("Loading Data");
       return await this.loadData();
     }
   }
