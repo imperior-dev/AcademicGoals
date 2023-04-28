@@ -3,9 +3,17 @@ import { TextInput } from "react-native"
 export function TextInputComponent({
   style,
   autoFocus,
+  onChange,
+  defaultValue,
+  type,
+  maxLength,
 }: {
   style?: Object;
-  autoFocus: boolean;
+  autoFocus?: boolean;
+  defaultValue?: string;
+  maxLength?: any;
+  onChange: (newValue: string) => void;
+  type?: any;
 }) {
   return (
     <TextInput
@@ -18,8 +26,11 @@ export function TextInputComponent({
         },
         style,
       ]}
-      defaultValue="Default Value"
+      maxLength={maxLength}
+      keyboardType={type}
+      defaultValue={defaultValue}
       autoFocus={autoFocus}
+      onChangeText={onChange}
     />
   );
 }

@@ -21,6 +21,46 @@ const SetupStyle = StyleSheet.create({
     marginLeft: 64,
     padding: 10,
   },
+  descriptionText: {
+    marginHorizontal: 20,
+    marginVertical: 10,
+    color: Colors.grey,
+  },
+  addButtonOuter: {
+    width: 64,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  center: {
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    textAlignVertical: "center",
+  },
+
+  buttonInputOuter: {
+    flexDirection: "row",
+  },
+
+  buttonInputInner: {
+    flex: 1,
+  },
+
+  buttonOuter: {
+    alignSelf: "flex-end",
+    borderRadius: 5,
+    marginRight: 20,
+    width: 86,
+    padding: 8,
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 18,
+    marginBottom: 2,
+    fontWeight: "200",
+    color: Colors.white,
+  },
 });
 
 export { SetupStyle };

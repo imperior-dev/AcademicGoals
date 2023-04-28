@@ -62,7 +62,7 @@ export class System {
       }),
       this.storage.load(),
     ]);
-    if (Object.keys(this.storage.data).length > 0) this.navigateTo("Home");
+    if (this.storage.exists) this.navigateTo("Home");
     else {
       this.mode = "setup";
       this.navigateTo("Setup");
@@ -87,16 +87,130 @@ export class System {
   }
 }
 
+const basePath = FileSystem.documentDirectory;
+let user = 1;
+
 class Storage {
-  public data: any;
-  constructor() {}
+  public data: {
+    settings: {
+      user: {
+        name: string;
+      };
+      subjects: Array<{ name: string; id: number; difficult: boolean }>;
+      break: {
+        duration: {
+          hr: string;
+          min: string;
+        };
+        interval: {
+          hr: string;
+          min: string;
+        };
+      };
+      timings: {
+        weekdays: Array<{
+          from: {
+            hr: string;
+            min: string;
+            am: boolean;
+          };
+          to: {
+            hr: string;
+            min: string;
+            am: boolean;
+          };
+          id: number;
+        }>;
+        weekends: Array<{
+          from: {
+            hr: string;
+            min: string;
+            am: boolean;
+          };
+          to: {
+            hr: string;
+            min: string;
+            am: boolean;
+          };
+          id: number;
+        }>;
+      };
+    };
+  };
+  public exists: boolean;
+  constructor() {
+    this.exists = false;
+    this.data = {
+      settings: {
+        user: {
+          name: "",
+        },
+        subjects: [
+          {
+            name: "",
+            id: 0,
+            difficult: false,
+          },
+        ],
+        break: {
+          duration: {
+            hr: "00",
+            min: "00",
+          },
+          interval: {
+            hr: "00",
+            min: "00",
+          },
+        },
+        timings: {
+          weekdays: [
+            {
+              from: {
+                hr: "01",
+                min: "00",
+                am: true,
+              },
+              to: {
+                hr: "01",
+                min: "00",
+                am: true,
+              },
+              id: 0,
+            },
+          ],
+          weekends: [
+            {
+              from: {
+                hr: "01",
+                min: "00",
+                am: true,
+              },
+              to: {
+                hr: "01",
+                min: "00",
+                am: true,
+              },
+              id: 0,
+            },
+          ],
+        },
+      },
+    };
+  }
   async load() {
-    const basePath = FileSystem.documentDirectory;
     try {
-      var rawData = await FileSystem.readAsStringAsync(basePath + "data.json");
+      var rawData = await FileSystem.readAsStringAsync(
+        basePath + `user-${user}.json`
+      );
+      this.exists = true;
       this.data = JSON.parse(rawData);
-    } catch {
-      this.data = {};
-    }
+    } catch {}
+  }
+
+  write() {
+    return FileSystem.writeAsStringAsync(
+      basePath + `user-${user}.json`,
+      JSON.stringify(this.data, null, 4)
+    );
   }
 }

@@ -8,7 +8,12 @@ export function BlockComponent({
   style?: any;
 }) {
   return (
-    <View style={[{ margin: 20, marginBottom: 0, marginTop: 14 }, style]}>
+    <View
+      style={[
+        { margin: 20, marginBottom: 0, marginTop: 14, overflow: "hidden" },
+        style,
+      ]}
+    >
       {children}
     </View>
   );
