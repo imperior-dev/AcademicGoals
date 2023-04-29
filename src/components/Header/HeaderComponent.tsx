@@ -35,15 +35,7 @@ export function HeaderComponent({ system }: { system: System }) {
       ></View>
       <SafeAreaView>
         <View style={Style.body}>
-          <TextComponent
-            style={{
-              fontSize: 26,
-              fontWeight: "600",
-              color: "white",
-            }}
-          >
-            {title}
-          </TextComponent>
+          <TextComponent style={Style.title}>{title}</TextComponent>
         </View>
       </SafeAreaView>
       <View style={Style.line}></View>

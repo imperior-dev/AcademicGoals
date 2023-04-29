@@ -10,8 +10,14 @@ const HeaderStyle = StyleSheet.create({
   },
   body: {
     height: 64,
-    justifyContent: "center",
     alignItems: "center",
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "600",
+    color: "white",
+    textAlignVertical: "bottom",
+    marginBottom: 12,
   },
 });
 

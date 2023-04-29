@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { ImageBackground, TouchableOpacity, View } from "react-native"
 
 import {
@@ -12,12 +13,18 @@ import { System } from "../../System"
 import { NavbarStyle as Style } from "./NavbarStyle"
 
 export function NavbarComponent({ system }: { system: System }) {
+  const [selectedIcon, setSelectedIcon] = useState("Home");
+  system.setSelectedIcon = setSelectedIcon;
+
   return (
     <ImageBackground source={Images.navbar} style={Style.body}>
       <View style={Style.line}></View>
       <View style={Style.iconList}>
         <TouchableOpacity
-          style={Style.iconOuter}
+          style={[
+            Style.iconOuter,
+            { opacity: selectedIcon === "Analytics" ? 0.7 : 1 },
+          ]}
           onPress={() => {
             system.navigateTo("Analytics");
           }}
@@ -25,7 +32,10 @@ export function NavbarComponent({ system }: { system: System }) {
           <AnalyticsIcon color="white" />
         </TouchableOpacity>
         <TouchableOpacity
-          style={Style.iconOuter}
+          style={[
+            Style.iconOuter,
+            { opacity: selectedIcon === "Homework" ? 0.7 : 1 },
+          ]}
           onPress={() => {
             system.navigateTo("Homework");
           }}
@@ -33,7 +43,10 @@ export function NavbarComponent({ system }: { system: System }) {
           <HomeworkIcon color="white" />
         </TouchableOpacity>
         <TouchableOpacity
-          style={Style.iconOuter}
+          style={[
+            Style.iconOuter,
+            { opacity: selectedIcon === "Home" ? 0.7 : 1 },
+          ]}
           onPress={() => {
             system.navigateTo("Home");
           }}
@@ -41,7 +54,10 @@ export function NavbarComponent({ system }: { system: System }) {
           <HomeIcon color="white" />
         </TouchableOpacity>
         <TouchableOpacity
-          style={Style.iconOuter}
+          style={[
+            Style.iconOuter,
+            { opacity: selectedIcon === "Calendar" ? 0.7 : 1 },
+          ]}
           onPress={() => {
             system.navigateTo("Calendar");
           }}
@@ -49,7 +65,10 @@ export function NavbarComponent({ system }: { system: System }) {
           <CalendarIcon color="white" />
         </TouchableOpacity>
         <TouchableOpacity
-          style={Style.iconOuter}
+          style={[
+            Style.iconOuter,
+            { opacity: selectedIcon === "Settings" ? 0.7 : 1 },
+          ]}
           onPress={() => {
             system.navigateTo("Settings");
           }}

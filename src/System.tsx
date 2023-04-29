@@ -19,6 +19,7 @@ export class System {
   public storage: Storage;
   public Screen;
   public mode: "working" | "setup";
+  public setSelectedIcon?: Function;
   constructor() {
     this.log("info", "System Started");
     this.currentScreen = null;
@@ -71,7 +72,9 @@ export class System {
   }
 
   navigateTo(newScreen: string) {
+    if (!this.storage.exists && newScreen !== "Setup") return;
     this.currentScreen = newScreen;
+    if (this.setSelectedIcon) this.setSelectedIcon(newScreen);
     Object.keys(screens).forEach((screen) => {
       if (screen === newScreen) {
         screens[screen].setState("visible");
@@ -202,8 +205,8 @@ class Storage {
       var rawData = await FileSystem.readAsStringAsync(
         basePath + `user-${user}.json`
       );
-      this.exists = true;
       this.data = JSON.parse(rawData);
+      this.exists = true;
     } catch {}
   }
 

@@ -19,6 +19,15 @@ export function SetupComponent({ system }: { system: System }) {
   const [stage, setStage] = useState(1);
   const button: any = {};
 
+  if (stage === 8) {
+    //All Set stage
+    system.storage.exists = true;
+    system.storage.write();
+    setTimeout(() => {
+      system.navigateTo("Home");
+    }, 5000);
+  }
+
   if (button.setCanNext) button.setCanNext(false);
 
   function NextButtonComponent() {
@@ -76,7 +85,7 @@ export function SetupComponent({ system }: { system: System }) {
         <TextComponent style={Style.descriptionText}>
           {
             [
-              "Please provide your first name ONLY",
+              "Please provide your first name only.",
               `Write one subject at once. Use the "Add" button to add multiple subjects.`,
               `Selecting "Hard" will make sure you get more time for those subjects.`,
               `A 15 mins break between constant study is always recomended.`,
