@@ -14,7 +14,7 @@ export function MainComponent({ system }: { system: System }) {
       <HeaderComponent system={system} />
       <View style={{ flex: 1 }}>
         <system.Screen name="Home" Component={HomeComponent} />
-        <system.Screen name="Setting" Component={SettingComponent} />
+        <system.Screen name="Settings" Component={SettingComponent} />
         <system.Screen name="Setup" Component={SetupComponent} />
       </View>
       <NavbarComponent system={system} />

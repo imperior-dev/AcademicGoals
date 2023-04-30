@@ -19,7 +19,7 @@ export function Stage7Component({
   buttonData: any;
 }) {
   const settings = system.storage.data.settings;
-  settings.timings.weekends = [...settings.timings.weekdays];
+
   const [timings, setTimings] = useState(settings.timings.weekends);
 
   function verifyData() {
@@ -36,6 +36,7 @@ export function Stage7Component({
     )
       buttonData.setCanNext(true);
     else buttonData.setCanNext(false);
+    console.log(JSON.stringify(settings.timings, null, 4));
   }
   return (
     <View>

@@ -4,6 +4,8 @@ import * as SplashScreen from "expo-splash-screen"
 import { useState } from "react"
 import { StatusBar } from "react-native"
 
+const FORCE_CLEAR_DATA = false;
+
 interface ScreensType {
   [key: string]: {
     setState: React.Dispatch<React.SetStateAction<"visible" | "hidden">>;
@@ -201,12 +203,17 @@ class Storage {
     };
   }
   async load() {
+    if (FORCE_CLEAR_DATA) {
+      await this.write();
+    }
     try {
       var rawData = await FileSystem.readAsStringAsync(
         basePath + `user-${user}.json`
       );
       this.data = JSON.parse(rawData);
-      this.exists = true;
+      if (this.data.settings.user.name !== "") {
+        this.exists = true;
+      }
     } catch {}
   }
 

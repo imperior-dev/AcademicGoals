@@ -21,7 +21,9 @@ import { TextComponent } from "../Text/TextComponent"
 import { HeaderStyle as Style } from "./HeaderStyle"
 
 export function HeaderComponent({ system }: { system: System }) {
-  const [title, setTitle] = useState<string>(system.currentScreen || "");
+  const [title, setTitle] = useState<string>(
+    system.storage.exists ? "" : "Setup"
+  );
   system.setHeader = setTitle;
   if (title == "") return null;
   return (

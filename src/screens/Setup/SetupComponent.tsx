@@ -91,7 +91,7 @@ export function SetupComponent({ system }: { system: System }) {
               `A 15 mins break between constant study is always recomended.`,
               `The longer the gap, the longer will be each study sessions.`,
               `These are going to be your study time slots. Make sure to avoid times when you will prolly be busy or having food.`,
-              `It's always best to study more on weekends. Maybe press the "Add" button to add a morning session.`,
+              `It's always best to study more on weekends. Lets make a different schedule for weekends!`,
             ][stage - 1]
           }
         </TextComponent>

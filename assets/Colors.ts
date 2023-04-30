@@ -1,7 +1,7 @@
 export default {
   grey: "#AAAAAA",
   white: "#FFFFFF",
-  blue: "#48C8FF",
-  orange: "#FF7F48",
+  blue: "#55c8f6",
+  orange: "#fa8a59",
   black: "black",
 };
