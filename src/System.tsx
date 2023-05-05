@@ -4,6 +4,9 @@ import * as SplashScreen from "expo-splash-screen"
 import { useState } from "react"
 import { StatusBar } from "react-native"
 
+import { Schedule } from "./functions/generateSchedule"
+import { DataType } from "./types/DataType"
+
 const FORCE_CLEAR_DATA = false;
 
 interface ScreensType {
@@ -65,6 +68,7 @@ export class System {
       }),
       this.storage.load(),
     ]);
+    new Schedule(this);
     if (this.storage.exists) this.navigateTo("Home");
     else {
       this.mode = "setup";
@@ -96,52 +100,7 @@ const basePath = FileSystem.documentDirectory;
 let user = 1;
 
 class Storage {
-  public data: {
-    settings: {
-      user: {
-        name: string;
-      };
-      subjects: Array<{ name: string; id: number; difficult: boolean }>;
-      break: {
-        duration: {
-          hr: string;
-          min: string;
-        };
-        interval: {
-          hr: string;
-          min: string;
-        };
-      };
-      timings: {
-        weekdays: Array<{
-          from: {
-            hr: string;
-            min: string;
-            am: boolean;
-          };
-          to: {
-            hr: string;
-            min: string;
-            am: boolean;
-          };
-          id: number;
-        }>;
-        weekends: Array<{
-          from: {
-            hr: string;
-            min: string;
-            am: boolean;
-          };
-          to: {
-            hr: string;
-            min: string;
-            am: boolean;
-          };
-          id: number;
-        }>;
-      };
-    };
-  };
+  public data: DataType;
   public exists: boolean;
   constructor() {
     this.exists = false;
@@ -200,6 +159,7 @@ class Storage {
           ],
         },
       },
+      schedule: [],
     };
   }
   async load() {
